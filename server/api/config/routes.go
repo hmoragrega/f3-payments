@@ -23,6 +23,6 @@ func registerPaymentRoutes(e *echo.Echo, s payment.ServiceInterface) {
 	// Non-safe methods
 	g.POST("", payments.CreatePaymentHandler(s))
 	g.PUT("/:id", payments.ReplacePayment)
-	g.PATCH("/:id", payments.UpdatePayment)
+	g.PATCH("/:id", payments.PatchPaymentHandler(s))
 	g.DELETE("/:id", payments.DeletePaymentHandler(s))
 }

@@ -63,6 +63,11 @@ func (m *MongoRepository) Persist(i interface{}) error {
 	return m.collection().Insert(i)
 }
 
+// Update updates an existing entity
+func (m *MongoRepository) Update(ID string, i interface{}) error {
+	return m.collection().UpdateId(ID, i)
+}
+
 // List returns a collection of entities
 func (m *MongoRepository) List() (interface{}, error) {
 	l := m.entity.list()

@@ -33,7 +33,7 @@ type Payment struct {
 	SchemaPaymentType    string             `jsonapi:"attr,scheme_payment_type" valid:"required,stringlength(2|100)" bson:"scheme_payment_type"`
 	SchemaPaymentSubType string             `jsonapi:"attr,scheme_payment_sub_type" valid:"required,stringlength(2|100)" bson:"scheme_payment_sub_type"`
 	ProcessingTime       time.Time          `jsonapi:"attr,processing_time" bson:"processing_time"`
-	Beneficiary          Party              `jsonapi:"attr,beneficiary_party" valid:"required" bson:"beneficiary_party"`
+	Beneficiary          Party              `jsonapi:"attr,beneficiary_party" json:"beneficiary_party" valid:"required" bson:"beneficiary_party"`
 	Debtor               Party              `jsonapi:"attr,debtor_party" valid:"required" bson:"debtor_party"`
 	Sponsor              Party              `jsonapi:"attr,sponsor_party" valid:"required" bson:"sponsor_party"`
 	ChargesInformation   ChargesInformation `jsonapi:"attr,charges_information" valid:"required" bson:"charges_information"`

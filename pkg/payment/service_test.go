@@ -93,6 +93,53 @@ func TestGetPaymentNotValid(t *testing.T) {
 	assert.Nil(t, result)
 }
 
+func TestMergeCorrectly(t *testing.T) {
+	s, r, v := getServices()
+	old := &Payment{ID: "foo", Amount: 10}
+	new := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
+	merge := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
+
+	r.On("Get", new.ID).Return(old, nil)
+	v.On("Validate", merge).Return(nil)
+	r.On("Update", merge).Return(nil)
+
+	result, err := s.Merge(new.ID, new)
+
+	assert.Equal(t, merge, result)
+	assert.Nil(t, err)
+}
+
+func TestMergeUpdateError(t *testing.T) {
+	s, r, v := getServices()
+	old := &Payment{ID: "foo", Amount: 10}
+	new := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
+	merge := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
+
+	r.On("Get", new.ID).Return(old, nil)
+	v.On("Validate", merge).Return(nil)
+	r.On("Update", merge).Return(errors.New("foo"))
+
+	result, err := s.Merge(new.ID, new)
+
+	assert.Equal(t, ErrPersistFailed, err)
+	assert.Nil(t, result)
+}
+
+func TestMergeValidationError(t *testing.T) {
+	s, r, v := getServices()
+	old := &Payment{ID: "foo", Amount: 10}
+	new := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
+	merge := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
+
+	r.On("Get", new.ID).Return(old, nil)
+	v.On("Validate", merge).Return(errors.New("foo"))
+
+	result, err := s.Merge(new.ID, new)
+
+	assert.Equal(t, ErrValidationFailed, err)
+	assert.Nil(t, result)
+}
+
 func TestUpdateCorrectly(t *testing.T) {
 	s, r, v := getServices()
 	old := &Payment{ID: "foo", Amount: 10}

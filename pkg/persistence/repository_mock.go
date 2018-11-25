@@ -12,19 +12,24 @@ func (r *MockRepository) Persist(i interface{}) error {
 	return r.Called(i).Error(0)
 }
 
-// List returns a list of payments
+// Update updates an entity
+func (r *MockRepository) Update(ID string, i interface{}) error {
+	return r.Called(i).Error(0)
+}
+
+// List returns a collection of entities
 func (r *MockRepository) List() (interface{}, error) {
 	args := r.Called()
 	return args.Get(0), args.Error(1)
 }
 
-// Get returns a single payment
+// Get retrieves a single entity by the ID
 func (r *MockRepository) Get(ID string) (interface{}, error) {
 	args := r.Called(ID)
 	return args.Get(0), args.Error(1)
 }
 
-// Delete deletes a payment
+// Delete deletes an entity by the ID
 func (r *MockRepository) Delete(ID string) error {
 	return r.Called(ID).Error(0)
 }

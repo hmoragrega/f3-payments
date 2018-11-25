@@ -6,6 +6,7 @@ import (
 	log "github.com/hmoragrega/f3-payments/pkg/logging"
 	"github.com/hmoragrega/f3-payments/pkg/persistence"
 	"github.com/hmoragrega/f3-payments/pkg/validation"
+	"github.com/imdario/mergo"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -24,12 +25,16 @@ var (
 
 	// ErrDeleteFailed is triggered when there is a failure deleting a payment
 	ErrDeleteFailed = errors.New("The payment could not be deleted")
+
+	// ErrMergeFailed is triggered when a payment cannot be merged into another
+	ErrMergeFailed = errors.New("The payment is not valid")
 )
 
 // ServiceInterface payment service public API
 type ServiceInterface interface {
 	Create(p *Payment) error
 	Update(p *Payment) error
+	Merge(ID string, p *Payment) (*Payment, error)
 	List() (*Collection, error)
 	Get(ID string) (*Payment, error)
 	Delete(ID string) error
@@ -56,10 +61,29 @@ func (s *service) Create(p *Payment) error {
 func (s *service) Update(p *Payment) error {
 	_, err := s.Get(p.ID)
 	if err != nil {
-		return err // Is already logged by "Get"
+		return err
 	}
 
 	return s.persist(p)
+}
+
+// Merge search for a payment and updates some fields from it, returning the final payment
+func (s *service) Merge(ID string, p *Payment) (*Payment, error) {
+	o, err := s.Get(ID)
+	if err != nil {
+		return nil, err
+	}
+
+	p.ID = ID
+	if err := mergo.Merge(o, p, mergo.WithOverride); err != nil {
+		return nil, log.Errors(ErrMergeFailed, err)
+	}
+
+	if err := s.update(o); err != nil {
+		return nil, err
+	}
+
+	return o, nil
 }
 
 // List gets the collection of payments
@@ -111,6 +135,18 @@ func (s *service) persist(p *Payment) error {
 	}
 
 	if err := s.repo.Persist(p); err != nil {
+		return log.Errors(ErrPersistFailed, err)
+	}
+
+	return nil
+}
+
+func (s *service) update(p *Payment) error {
+	if err := s.validator.Validate(p); err != nil {
+		return log.Errors(ErrValidationFailed, err)
+	}
+
+	if err := s.repo.Update(p.ID, p); err != nil {
 		return log.Errors(ErrPersistFailed, err)
 	}
 
