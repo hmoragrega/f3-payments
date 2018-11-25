@@ -3,6 +3,7 @@ package payments
 import (
 	"bytes"
 	"testing"
+	"time"
 
 	"github.com/Slemgrim/jsonapi"
 	"github.com/stretchr/testify/assert"
@@ -49,6 +50,24 @@ func TestJSONApiMarshaling(t *testing.T) {
 				Currency: "USD",
 			},
 		},
+		ForeignExchange: ForeignExchange{
+			ContractReference: "FX123",
+			ExchangeRate:      2.00000,
+			OriginalAmount: Charge{
+				Amount:   200.42,
+				Currency: "USD",
+			},
+		},
+		EndToEndReference:    "Wil piano Jan",
+		NumericReference:     "1002001",
+		PaymentID:            "123456789012345678",
+		PaymentPurpouse:      "Paying for goods/services",
+		PaymentSchema:        "FPS",
+		PaymentType:          "Credit",
+		ProcessingTime:       time.Unix(1543110881, 0),
+		Reference:            "Payment for Em's piano lessons",
+		SchemaPaymentType:    "ImmediatePayment",
+		SchemaPaymentSubType: "InternetBanking",
 	}
 
 	assert.Equal(t, expected, payment)
@@ -95,7 +114,25 @@ func getJSONPayment() []byte {
 						"amount": 1.00,
 						"currency": "USD"
 					}
-				}
+				},
+				"fx": {
+					"contract_reference": "FX123",
+					"exchange_rate": 2.00000,
+					"original_amount": {
+						"amount": 200.42,
+						"currency": "USD"
+					}
+				},
+				"end_to_end_reference": "Wil piano Jan",
+				"numeric_reference": "1002001",
+				"payment_id": "123456789012345678",
+				"payment_purpose": "Paying for goods/services",
+				"payment_scheme": "FPS",
+				"payment_type": "Credit",
+				"processing_time": 1543110881,
+				"reference": "Payment for Em's piano lessons",
+				"scheme_payment_sub_type": "InternetBanking",
+				"scheme_payment_type": "ImmediatePayment"
 			}
 		}
 	}`)

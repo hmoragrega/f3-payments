@@ -9,5 +9,5 @@ type PaymentParty struct {
 	AccountName       string `jsonapi:"attr,account_name"`
 	AccountNumber     string `jsonapi:"attr,account_number"`
 	AccountNumberCode string `jsonapi:"attr,account_number_code"`
-	AccountType       int    `jsonapi:"attr,account_type"`
+	AccountType       int    `jsonapi:"attr,account_type,omitempty"`
 }
