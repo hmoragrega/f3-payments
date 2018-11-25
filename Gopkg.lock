@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  branch = "master"
+  digest = "1:ec0034affdb84f543c8cbb4f434c3b7760859ba40c99707b7157336136e75984"
+  name = "github.com/Slemgrim/jsonapi"
+  packages = ["."]
+  pruneopts = "T"
+  revision = "417d4eb8fb29f0e8d267b8833406418394dcd1ee"
+
+[[projects]]
   digest = "1:9f42202ac457c462ad8bb9642806d275af9ab4850cf0b1960b9c6f083d4a309a"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -26,12 +34,12 @@
   version = "v1.4.7"
 
 [[projects]]
-  digest = "1:a714035b7733f5a2fdd5acd22acfa65433bb6c4d6fba07e04d45f001cc156a98"
+  branch = "master"
+  digest = "1:1ad2b4053da0814eba99170d91e9092f2044c683c76ca1d72cf2c970e7e7ebe1"
   name = "github.com/google/jsonapi"
   packages = ["."]
   pruneopts = "T"
-  revision = "46d3ced0434461be12e555852e2f1a9ed382e139"
-  version = "1.0.0"
+  revision = "d0428f63eb511f08685bda2d0a6af1d7532fb1c0"
 
 [[projects]]
   digest = "1:071bcbf82c289fba4d3f63c876bf4f0ba7eda625cd60795e0a03ccbf949e517a"
@@ -313,6 +321,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/Slemgrim/jsonapi",
     "github.com/google/jsonapi",
     "github.com/labstack/echo",
     "github.com/labstack/echo/middleware",
