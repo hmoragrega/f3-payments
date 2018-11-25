@@ -1,4 +1,6 @@
-package payments
+// +build unit !functional
+
+package payment
 
 import (
 	"bytes"

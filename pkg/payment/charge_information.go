@@ -1,4 +1,4 @@
-package payments
+package payment
 
 // ChargesInformation represents the charges derived from a payment
 type ChargesInformation struct {

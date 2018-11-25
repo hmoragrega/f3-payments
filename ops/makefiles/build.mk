@@ -1,6 +1,6 @@
 .PHONY: all
 
-API_MAIN := api/main.go
+API_MAIN := server/api.go
 API_EXECUTABLE := bin/f3-payments-api
 FLAGS := -race
 

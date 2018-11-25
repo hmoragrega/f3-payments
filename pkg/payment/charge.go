@@ -1,4 +1,4 @@
-package payments
+package payment
 
 // Charge represents an amount given in a specific currency
 type Charge struct {

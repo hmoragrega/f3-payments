@@ -1,4 +1,4 @@
-package payments
+package payment
 
 // PaymentParty represents an party involved in a payment, either the beneficiary or the debtor
 type PaymentParty struct {

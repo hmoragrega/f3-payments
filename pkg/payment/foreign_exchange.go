@@ -1,4 +1,4 @@
-package payments
+package payment
 
 // ForeignExchange represents an foreign currency exchange in a given time
 type ForeignExchange struct {
