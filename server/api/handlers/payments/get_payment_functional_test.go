@@ -6,6 +6,7 @@ import (
 )
 
 func TestGetOne(t *testing.T) {
+	reloadFixtures()
 	client().Get("/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43").
 		Expect(t).
 		Status(http.StatusOK).

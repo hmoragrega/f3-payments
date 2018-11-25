@@ -6,6 +6,7 @@ import (
 )
 
 func TestGetList(t *testing.T) {
+	reloadFixtures()
 	client().Get("/payments").
 		Expect(t).
 		Status(http.StatusOK).
@@ -19,7 +20,7 @@ func getPaymentListFromFixtures() string {
 		"data": [
 			{
 				"type": "payments",
-				"id": "502758ff-505f-4d81-b9d2-83aa9c01ebe2",
+				"id": "09fe827a-b3c2-4437-b999-6c0e780c0983",
 				"attributes": {
 					"amount": 100.21,
 					"beneficiary_party": {
@@ -89,7 +90,7 @@ func getPaymentListFromFixtures() string {
 					}
 				},
 				"links": {
-					"self": "/payments/502758ff-505f-4d81-b9d2-83aa9c01ebe2"
+					"self": "/payments/09fe827a-b3c2-4437-b999-6c0e780c0983"
 				},
 				"meta": {
 					"organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
@@ -177,7 +178,7 @@ func getPaymentListFromFixtures() string {
 			},
 			{
 				"type": "payments",
-				"id": "09fe827a-b3c2-4437-b999-6c0e780c0983",
+				"id": "502758ff-505f-4d81-b9d2-83aa9c01ebe2",
 				"attributes": {
 					"amount": 100.21,
 					"beneficiary_party": {
@@ -247,7 +248,7 @@ func getPaymentListFromFixtures() string {
 					}
 				},
 				"links": {
-					"self": "/payments/09fe827a-b3c2-4437-b999-6c0e780c0983"
+					"self": "/payments/502758ff-505f-4d81-b9d2-83aa9c01ebe2"
 				},
 				"meta": {
 					"organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",

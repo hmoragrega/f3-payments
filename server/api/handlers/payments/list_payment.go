@@ -30,5 +30,5 @@ func (h *ListPaymentHandler) Handle(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err)
 	}
 
-	return handlers.JSONApiPretty(c, http.StatusOK, l)
+	return handlers.JSONApiPretty(c, http.StatusOK, *l)
 }

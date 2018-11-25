@@ -69,7 +69,7 @@ func (m *MongoRepository) Persist(i interface{}) error {
 // List returns a collection of entities
 func (m *MongoRepository) List() (interface{}, error) {
 	l := m.entity.list()
-	err := m.collection().Find(nil).All(l)
+	err := m.collection().Find(nil).Sort("_id").All(l)
 
 	return l, err
 }
