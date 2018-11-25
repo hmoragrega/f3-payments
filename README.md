@@ -46,3 +46,4 @@ make test-functional
 - Use authentication like a custom JWT based or full-fledge Oauth2
 - API versioning
 - Pagination
+- Filter/Search the payment lists

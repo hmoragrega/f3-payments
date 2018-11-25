@@ -14,7 +14,8 @@ func (r *MockRepository) Persist(i interface{}) error {
 
 // List returns a list of payments
 func (r *MockRepository) List() (interface{}, error) {
-	return nil, nil
+	args := r.Called()
+	return args.Get(0), args.Error(1)
 }
 
 // Get returns a single payment

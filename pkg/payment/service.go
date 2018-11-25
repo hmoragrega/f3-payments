@@ -25,7 +25,7 @@ var (
 type ServiceInterface interface {
 	Create(p *Payment) error
 	Update(p *Payment) error
-	List(string) (PaymentCollection, error)
+	List() (PaymentCollection, error)
 	Get(ID string) (*Payment, error)
 	Delete(ID string) error
 }
@@ -57,8 +57,18 @@ func (s *service) Update(p *Payment) error {
 }
 
 // List gets the collection of payments
-func (s *service) List(string) (PaymentCollection, error) {
-	return nil, nil
+func (s *service) List() (PaymentCollection, error) {
+	i, err := s.repo.List()
+	if err != nil {
+		return nil, ErrPaymentLookup
+	}
+
+	l, ok := i.(PaymentCollection)
+	if !ok {
+		return nil, ErrValidationFailed
+	}
+
+	return l, nil
 }
 
 // Get retrieves a single payment

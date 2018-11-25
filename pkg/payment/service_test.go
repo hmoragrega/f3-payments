@@ -107,6 +107,41 @@ func TestUpdateCorrectly(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestListPaymentsCorrectly(t *testing.T) {
+	s, r, _ := getServices()
+	c := PaymentCollection{{ID: "foo"}}
+
+	r.On("List").Return(c, nil)
+
+	result, err := s.List()
+
+	assert.Equal(t, c, result)
+	assert.Nil(t, err)
+}
+
+func TestListPaymentsLookupError(t *testing.T) {
+	s, r, _ := getServices()
+	c := PaymentCollection{{ID: "foo"}}
+
+	r.On("List").Return(c, errors.New("foo"))
+
+	result, err := s.List()
+
+	assert.Equal(t, ErrPaymentLookup, err)
+	assert.Nil(t, result)
+}
+
+func TestListPaymentsNotValid(t *testing.T) {
+	s, r, _ := getServices()
+
+	r.On("List").Return("not a collection", nil)
+
+	result, err := s.List()
+
+	assert.Equal(t, ErrValidationFailed, err)
+	assert.Nil(t, result)
+}
+
 func getServices() (ServiceInterface, *persistence.MockRepository, *validation.MockValidator) {
 	r := &persistence.MockRepository{}
 	v := &validation.MockValidator{}
