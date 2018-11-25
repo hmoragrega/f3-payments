@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Slemgrim/jsonapi"
+	"github.com/google/jsonapi"
 	"github.com/stretchr/testify/assert"
 )
 

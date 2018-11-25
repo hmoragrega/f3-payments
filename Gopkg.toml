@@ -26,41 +26,45 @@
 
 required = ["github.com/stretchr/objx"]
 
-[prune]
-  go-tests = true
+[[constraint]]
+  name = "github.com/asaskevich/govalidator"
+  version = "9.0.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/globalsign/mgo"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/google/jsonapi"
 
 [[constraint]]
   name = "github.com/labstack/echo"
   version = "3.3.8"
 
 [[constraint]]
-  name = "github.com/spf13/viper"
-  version = "1.2.1"
-
-[[constraint]]
-  name = "gopkg.in/h2non/baloo.v3"
-  version = "3.0.2"
-
-[[constraint]]
-  name = "github.com/google/jsonapi"
-  branch = "master"
-
-[[constraint]]
-  name = "github.com/stretchr/testify"
-  version = "1.2.2"
-
-[[constraint]]
-  name = "github.com/stretchr/objx"
-  version = "0.1.1"
-
-[[constraint]]
-  name = "github.com/asaskevich/govalidator"
-  version = "9.0.0"
+  name = "github.com/pkg/errors"
+  version = "0.8.0"
 
 [[constraint]]
   name = "github.com/sirupsen/logrus"
   version = "1.2.0"
 
 [[constraint]]
-  branch = "master"
-  name = "github.com/globalsign/mgo"
+  name = "github.com/spf13/viper"
+  version = "1.2.1"
+
+[[constraint]]
+  name = "github.com/stretchr/testify"
+  version = "1.2.2"
+
+[[constraint]]
+  name = "gopkg.in/h2non/baloo.v3"
+  version = "3.0.2"
+
+[prune]
+  go-tests = true
+
+[[constraint]]
+  name = "github.com/satori/go.uuid"
+  version = "1.2.0"

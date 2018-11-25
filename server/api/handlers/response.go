@@ -64,5 +64,8 @@ func JSONApiErrorPrettyHanler(err error, c echo.Context) {
 		Errors: []jsonAPIError{{Status: code, Detail: err.Error()}},
 	}
 
-	c.JSONPretty(code, jsonAPIError, jsonIndent)
+	out, err := json.Marshal(jsonAPIError)
+	logging.Errors(ErrInvalidJSON, err)
+
+	c.Blob(code, jsonapi.MediaType, out)
 }

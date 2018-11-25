@@ -6,6 +6,7 @@ import (
 	log "github.com/hmoragrega/f3-payments/pkg/logging"
 	"github.com/hmoragrega/f3-payments/pkg/persistence"
 	"github.com/hmoragrega/f3-payments/pkg/validation"
+	uuid "github.com/satori/go.uuid"
 )
 
 var (
@@ -47,6 +48,7 @@ func NewService(repo persistence.Repository, validator validation.Validator) Ser
 
 // Create creates a new payment
 func (s *service) Create(p *Payment) error {
+	p.ID = uuid.NewV4().String()
 	return s.persist(p)
 }
 

@@ -1,3 +1,5 @@
+// +build functional !unit
+
 package payments_test
 
 import (
@@ -31,50 +33,48 @@ func getPaymentFromFixtures() string {
 			"attributes": {
 				"amount": 100.21,
 				"beneficiary_party": {
-					"Name": "Wilfred Jeremiah Owens",
-					"Address": "1 The Beneficiary Localtown SE2",
-					"BankID": "403000",
-					"BankIDCode": "GBDSC",
-					"AccountName": "W Owens",
-					"AccountNumber": "31926819",
-					"AccountNumberCode": "BBAN",
-					"AccountType": 0
+					"name": "Wilfred Jeremiah Owens",
+					"address": "1 The Beneficiary Localtown SE2",
+					"bank_id": "403000",
+					"bank_id_code": "GBDSC",
+					"account_name": "W Owens",
+					"account_number": "31926819",
+					"account_number_code": "BBAN"
 				},
 				"charges_information": {
-					"BearerCode": "SHAR",
-					"SenderCharges": [
+					"bearer_code": "SHAR",
+					"sender_charges": [
 						{
-							"Amount": 5,
-							"Currency": "GBP"
+							"amount": 5,
+							"currency": "GBP"
 						},
 						{
-							"Amount": 10,
-							"Currency": "USD"
+							"amount": 10,
+							"currency": "USD"
 						}
 					],
-					"ReceiverCharge": {
-						"Amount": 1,
-						"Currency": "USD"
+					"receiver_charge": {
+						"amount": 1,
+						"currency": "USD"
 					}
 				},
 				"currency": "USD",
 				"debtor_party": {
-					"Name": "Emelia Jane Brown",
-					"Address": "10 Debtor Crescent Sourcetown NE1",
-					"BankID": "203301",
-					"BankIDCode": "GBDSC",
-					"AccountName": "EJ Brown Black",
-					"AccountNumber": "GB29XABC10161234567801",
-					"AccountNumberCode": "IBAN",
-					"AccountType": 0
+					"name": "Emelia Jane Brown",
+					"address": "10 Debtor Crescent Sourcetown NE1",
+					"bank_id": "203301",
+					"bank_id_code": "GBDSC",
+					"account_name": "EJ Brown Black",
+					"account_number": "GB29XABC10161234567801",
+					"account_number_code": "IBAN"
 				},
 				"end_to_end_reference": "Wil piano Jan",
 				"fx": {
-					"ContractReference": "FX123",
-					"ExchangeRate": 2,
-					"OriginalAmount": {
-						"Amount": 200.42,
-						"Currency": "USD"
+					"contract_reference": "FX123",
+					"exchange_rate": 2,
+					"original_amount": {
+						"amount": 200.42,
+						"currency": "USD"
 					}
 				},
 				"numeric_reference": "1002001",
@@ -86,14 +86,9 @@ func getPaymentFromFixtures() string {
 				"scheme_payment_sub_type": "InternetBanking",
 				"scheme_payment_type": "ImmediatePayment",
 				"sponsor_party": {
-					"Name": "",
-					"Address": "",
-					"BankID": "123123",
-					"BankIDCode": "GBDSC",
-					"AccountName": "",
-					"AccountNumber": "56781234",
-					"AccountNumberCode": "",
-					"AccountType": 0
+					"bank_id": "123123",
+					"bank_id_code": "GBDSC",
+					"account_number": "56781234"
 				}
 			},
 			"links": {

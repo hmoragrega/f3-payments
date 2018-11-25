@@ -11,6 +11,8 @@ import (
 
 var testClient *baloo.Client
 
+var jsonApiContentTypePattern = `application/vnd\.api\+json`
+
 func client() *baloo.Client {
 	if testClient == nil {
 		testClient = baloo.New(config.NewConfig().GetAPIEndpoint())

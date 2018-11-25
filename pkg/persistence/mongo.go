@@ -12,9 +12,6 @@ import (
 const timeout = 60
 
 var (
-	// ErrClientMongo is triggered when the connection to mongo fails
-	ErrClientMongo = errors.New("The creation of mongo client has failed")
-
 	// ErrConnectionMongo is triggered when the connection to mongo fails
 	ErrConnectionMongo = errors.New("The connection to mongo server has failed")
 
@@ -61,9 +58,9 @@ func NewMongoRepository(config MongoConfig, entity *MongoEntity) (Repository, er
 	return &MongoRepository{entity}, nil
 }
 
-// Persist persists an entity
+// Persist persists an entity and returns the id
 func (m *MongoRepository) Persist(i interface{}) error {
-	return nil
+	return m.collection().Insert(i)
 }
 
 // List returns a collection of entities

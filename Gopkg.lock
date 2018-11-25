@@ -2,14 +2,6 @@
 
 
 [[projects]]
-  branch = "master"
-  digest = "1:ec0034affdb84f543c8cbb4f434c3b7760859ba40c99707b7157336136e75984"
-  name = "github.com/Slemgrim/jsonapi"
-  packages = ["."]
-  pruneopts = "T"
-  revision = "417d4eb8fb29f0e8d267b8833406418394dcd1ee"
-
-[[projects]]
   digest = "1:297a3c21bf1d3b4695a222e43e982bb52b4b9e156ca2eadbe32b898d0a1ae551"
   name = "github.com/asaskevich/govalidator"
   packages = ["."]
@@ -54,22 +46,6 @@
   ]
   pruneopts = "T"
   revision = "eeefdecb41b842af6dc652aaea4026e8403e62df"
-
-[[projects]]
-  digest = "1:586ea76dbd0374d6fb649a91d70d652b7fe0ccffb8910a77468e7702e7901f3d"
-  name = "github.com/go-stack/stack"
-  packages = ["."]
-  pruneopts = "T"
-  revision = "2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a"
-  version = "v1.8.0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:6027b20c168728321bd99ad01f35118eded457b01c03e647a84833ab331f2f5b"
-  name = "github.com/golang/snappy"
-  packages = ["."]
-  pruneopts = "T"
-  revision = "2e65f85255dbc3072edf28d6b5b8efc472979f5a"
 
 [[projects]]
   branch = "master"
@@ -163,47 +139,6 @@
   version = "v1.1.2"
 
 [[projects]]
-  digest = "1:f0d7f944167d79b6dfa62ada224e0534c7cf3f579d06497a86bf7fdcce38e0b0"
-  name = "github.com/mongodb/mongo-go-driver"
-  packages = [
-    "bson",
-    "bson/bsoncodec",
-    "bson/bsonrw",
-    "bson/bsontype",
-    "bson/decimal",
-    "bson/objectid",
-    "bson/primitive",
-    "core/address",
-    "core/auth",
-    "core/auth/internal/gssapi",
-    "core/command",
-    "core/compressor",
-    "core/connection",
-    "core/connstring",
-    "core/description",
-    "core/dispatch",
-    "core/event",
-    "core/result",
-    "core/session",
-    "core/tag",
-    "core/topology",
-    "core/uuid",
-    "core/version",
-    "core/wiremessage",
-    "internal",
-    "mongo",
-    "mongo/readconcern",
-    "mongo/readpref",
-    "mongo/writeconcern",
-    "options",
-    "x/bsonx",
-    "x/bsonx/bsoncore",
-  ]
-  pruneopts = "T"
-  revision = "dbffb1c211bf96fbd721b4bd6911331e5c1886ab"
-  version = "v0.0.18"
-
-[[projects]]
   digest = "1:ccf9949c9c53e85dcb7e2905fc620571422567040925381e6baa62f0b7b850fe"
   name = "github.com/pelletier/go-toml"
   packages = ["."]
@@ -226,6 +161,14 @@
   pruneopts = "T"
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
   version = "v1.0.0"
+
+[[projects]]
+  digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  pruneopts = "T"
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
 
 [[projects]]
   digest = "1:a204f9aa04d3305be0d4d8f69f42aee6c649a8f9f9a8dbbbaff54bdad5ce50c7"
@@ -315,22 +258,6 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:fb87ad6629b8ae41bdf7bec0a22cc4a5553ab550b4a52c88edacfbfe61ffd87d"
-  name = "github.com/xdg/scram"
-  packages = ["."]
-  pruneopts = "T"
-  revision = "7eeb5667e42c09cb51bf7b7c28aea8c56767da90"
-
-[[projects]]
-  digest = "1:577b99fc55ee19cbf1ffd072808c91ced78cd732bd9d0517bec9b90e532069cb"
-  name = "github.com/xdg/stringprep"
-  packages = ["."]
-  pruneopts = "T"
-  revision = "bd625b8dc1e3b0f57412280ccbcc317f0c69d8db"
-  version = "v1.0.0"
-
-[[projects]]
-  branch = "master"
   digest = "1:f4e5276a3b356f4692107047fd2890f2fe534f4feeb6b1fd2f6dfbd87f1ccf54"
   name = "github.com/xeipuuv/gojsonpointer"
   packages = ["."]
@@ -360,7 +287,6 @@
   packages = [
     "acme",
     "acme/autocert",
-    "pbkdf2",
     "ssh/terminal",
   ]
   pruneopts = "T"
@@ -376,14 +302,6 @@
   ]
   pruneopts = "T"
   revision = "adae6a3d119ae4890b46832a2e88a95adc62b8e7"
-
-[[projects]]
-  branch = "master"
-  digest = "1:c20b4d66e71aae7504855ab3cf6ad99b68134712dd0ed4786144136fb14c66e9"
-  name = "golang.org/x/sync"
-  packages = ["semaphore"]
-  pruneopts = "T"
-  revision = "42b317875d0fa942474b76e1b46a6060d720ae6e"
 
 [[projects]]
   branch = "master"
@@ -464,15 +382,13 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/Slemgrim/jsonapi",
     "github.com/asaskevich/govalidator",
     "github.com/globalsign/mgo",
     "github.com/google/jsonapi",
     "github.com/labstack/echo",
     "github.com/labstack/echo/middleware",
-    "github.com/mongodb/mongo-go-driver/bson",
-    "github.com/mongodb/mongo-go-driver/mongo",
     "github.com/pkg/errors",
+    "github.com/satori/go.uuid",
     "github.com/sirupsen/logrus",
     "github.com/spf13/viper",
     "github.com/stretchr/objx",
