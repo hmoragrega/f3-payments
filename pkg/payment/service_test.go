@@ -101,7 +101,7 @@ func TestMergeCorrectly(t *testing.T) {
 
 	r.On("Get", new.ID).Return(old, nil)
 	v.On("Validate", merge).Return(nil)
-	r.On("Update", merge).Return(nil)
+	r.On("Update", merge.ID, merge).Return(nil)
 
 	result, err := s.Merge(new.ID, new)
 
@@ -117,7 +117,7 @@ func TestMergeUpdateError(t *testing.T) {
 
 	r.On("Get", new.ID).Return(old, nil)
 	v.On("Validate", merge).Return(nil)
-	r.On("Update", merge).Return(errors.New("foo"))
+	r.On("Update", merge.ID, merge).Return(errors.New("foo"))
 
 	result, err := s.Merge(new.ID, new)
 
@@ -140,18 +140,42 @@ func TestMergeValidationError(t *testing.T) {
 	assert.Nil(t, result)
 }
 
-func TestUpdateCorrectly(t *testing.T) {
+func TestUpdateReplacingCorrectly(t *testing.T) {
 	s, r, v := getServices()
 	old := &Payment{ID: "foo", Amount: 10}
 	new := &Payment{ID: "foo", Amount: 20}
 
 	r.On("Get", new.ID).Return(old, nil)
 	v.On("Validate", new).Return(nil)
-	r.On("Persist", new).Return(nil)
+	r.On("Update", new.ID, new).Return(nil)
 
-	err := s.Update(new)
+	err := s.Update(new.ID, new)
 
 	assert.Nil(t, err)
+}
+
+func TestUpdateCreatingCorrectly(t *testing.T) {
+	s, r, v := getServices()
+	new := &Payment{ID: "foo", Amount: 20}
+
+	r.On("Get", new.ID).Return(nil, nil)
+	v.On("Validate", new).Return(nil)
+	r.On("Persist", new).Return(nil)
+
+	err := s.Update(new.ID, new)
+
+	assert.Nil(t, err)
+}
+
+func TestUpdateWithError(t *testing.T) {
+	s, r, _ := getServices()
+	new := &Payment{ID: "foo", Amount: 20}
+
+	r.On("Get", new.ID).Return(nil, errors.New("foo"))
+
+	err := s.Update(new.ID, new)
+
+	assert.Equal(t, ErrPersistFailed, err)
 }
 
 func TestListPaymentsCorrectly(t *testing.T) {

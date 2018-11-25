@@ -14,7 +14,7 @@ func (r *MockRepository) Persist(i interface{}) error {
 
 // Update updates an entity
 func (r *MockRepository) Update(ID string, i interface{}) error {
-	return r.Called(i).Error(0)
+	return r.Called(ID, i).Error(0)
 }
 
 // List returns a collection of entities

@@ -33,7 +33,7 @@ var (
 // ServiceInterface payment service public API
 type ServiceInterface interface {
 	Create(p *Payment) error
-	Update(p *Payment) error
+	Update(ID string, p *Payment) error
 	Merge(ID string, p *Payment) (*Payment, error)
 	List() (*Collection, error)
 	Get(ID string) (*Payment, error)
@@ -58,13 +58,18 @@ func (s *service) Create(p *Payment) error {
 }
 
 // Update updates an existing payment
-func (s *service) Update(p *Payment) error {
+func (s *service) Update(ID string, p *Payment) error {
+	p.ID = ID
 	_, err := s.Get(p.ID)
 	if err != nil {
-		return err
+		if err != ErrPaymentNotFound {
+			return err
+		}
+
+		return s.persist(p)
 	}
 
-	return s.persist(p)
+	return s.update(p)
 }
 
 // Merge search for a payment and updates some fields from it, returning the final payment
