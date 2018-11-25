@@ -6,15 +6,22 @@ import (
 )
 
 func TestGetOne(t *testing.T) {
-	// This test uses the fixtures in ops/mongo/payments.json
 	client().Get("/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43").
 		Expect(t).
 		Status(http.StatusOK).
-		JSON(getPaymentFromFixtures(t)).
+		JSON(getPaymentFromFixtures()).
 		Done()
 }
 
-func getPaymentFromFixtures(t *testing.T) string {
+func TestGetOneNotFoundError(t *testing.T) {
+	client().Get("/payments/foo").
+		Expect(t).
+		Status(http.StatusNotFound).
+		JSON(getErrorResponse(http.StatusNotFound, "code=404, message=The payment has not been found")).
+		Done()
+}
+
+func getPaymentFromFixtures() string {
 	return `
 	{
 		"data": {

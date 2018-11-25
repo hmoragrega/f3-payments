@@ -17,7 +17,7 @@ func RegisterRoutes(e *echo.Echo, d *DIC) error {
 func registerPaymentRoutes(e *echo.Echo, s payment.ServiceInterface) {
 	g := e.Group(payment.PaymentType)
 
-	g.GET("", payments.GetPayments)
+	g.GET("", payments.NewListPaymentHandler(s).Handle)
 	g.GET("/:id", payments.NewGetPaymentHandler(s).Handle)
 
 	// Non-safe methods

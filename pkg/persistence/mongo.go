@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"errors"
+	"sync"
 	"time"
 
 	"github.com/globalsign/mgo"
@@ -67,13 +68,20 @@ func (m *MongoRepository) Persist(i interface{}) error {
 
 // List returns a collection of entities
 func (m *MongoRepository) List() (interface{}, error) {
-	return nil, nil
+	l := m.entity.list()
+	err := m.collection().Find(nil).All(l)
+
+	return l, err
 }
 
 // Get retrieves a single entity by the ID
 func (m *MongoRepository) Get(ID string) (interface{}, error) {
 	e := m.entity.one()
 	err := m.collection().FindId(ID).One(e)
+
+	if err != nil && err == mgo.ErrNotFound {
+		return nil, nil
+	}
 
 	return e, err
 }
@@ -88,6 +96,10 @@ func (m *MongoRepository) collection() *mgo.Collection {
 }
 
 func connect(config MongoConfig) error {
+	mtx := &sync.RWMutex{}
+	mtx.RLock()
+	defer mtx.RUnlock()
+
 	if mongoDB == nil {
 		info := &mgo.DialInfo{
 			Addrs:    []string{config.Address},

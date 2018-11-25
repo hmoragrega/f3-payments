@@ -109,7 +109,7 @@ func TestUpdateCorrectly(t *testing.T) {
 
 func TestListPaymentsCorrectly(t *testing.T) {
 	s, r, _ := getServices()
-	c := Collection{{ID: "foo"}}
+	c := &Collection{{ID: "foo"}}
 
 	r.On("List").Return(c, nil)
 
@@ -121,7 +121,7 @@ func TestListPaymentsCorrectly(t *testing.T) {
 
 func TestListPaymentsLookupError(t *testing.T) {
 	s, r, _ := getServices()
-	c := Collection{{ID: "foo"}}
+	c := &Collection{{ID: "foo"}}
 
 	r.On("List").Return(c, errors.New("foo"))
 

@@ -1,6 +1,8 @@
 package payments_test
 
 import (
+	"fmt"
+
 	"github.com/hmoragrega/f3-payments/server/api/config"
 	baloo "gopkg.in/h2non/baloo.v3"
 )
@@ -13,4 +15,15 @@ func client() *baloo.Client {
 	}
 
 	return testClient
+}
+
+func getErrorResponse(code int, detail string) string {
+	return fmt.Sprintf(`{
+		"errors": [
+			{
+				"status": %d,
+				"detail": "%s"
+			}
+		]
+	}`, code, detail)
 }
