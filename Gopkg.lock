@@ -69,6 +69,14 @@
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:0a69a1c0db3591fcefb47f115b224592c8dfa4368b7ba9fae509d5e16cdc95c8"
+  name = "github.com/konsorten/go-windows-terminal-sequences"
+  packages = ["."]
+  pruneopts = "T"
+  revision = "5c8c8bd35d3832f5d134ae1e1e375b69a4d25242"
+  version = "v1.0.1"
+
+[[projects]]
   digest = "1:a65b5b64a509c0cf4653dd1144a86f96f37288806cb7bab095d176d1f3b88fd5"
   name = "github.com/labstack/echo"
   packages = [
@@ -147,6 +155,14 @@
   pruneopts = "T"
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
   version = "v1.0.0"
+
+[[projects]]
+  digest = "1:a204f9aa04d3305be0d4d8f69f42aee6c649a8f9f9a8dbbbaff54bdad5ce50c7"
+  name = "github.com/sirupsen/logrus"
+  packages = ["."]
+  pruneopts = "T"
+  revision = "bcd833dfe83d3cebad139e4a29ed79cb2318bf95"
+  version = "v1.2.0"
 
 [[projects]]
   digest = "1:b7bf9fd95d38ebe6726a63b7d0320611f7c920c64e2c8313eba0cec51926bf55"
@@ -257,6 +273,7 @@
   packages = [
     "acme",
     "acme/autocert",
+    "ssh/terminal",
   ]
   pruneopts = "T"
   revision = "3d3f9f413869b949e48070b5bc593aa22cc2b8f2"
@@ -276,7 +293,10 @@
   branch = "master"
   digest = "1:aa255b0a0a884e6927587009224910e4758ae91510c03a6bb06bceacc9868c69"
   name = "golang.org/x/sys"
-  packages = ["unix"]
+  packages = [
+    "unix",
+    "windows",
+  ]
   pruneopts = "T"
   revision = "62eef0e2fa9b2c385f7b2778e763486da6880d37"
 
@@ -355,6 +375,7 @@
     "github.com/labstack/echo/middleware",
     "github.com/labstack/gommon/log",
     "github.com/pkg/errors",
+    "github.com/sirupsen/logrus",
     "github.com/spf13/viper",
     "github.com/stretchr/objx",
     "github.com/stretchr/testify/assert",

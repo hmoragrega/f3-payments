@@ -3,9 +3,9 @@ package payment
 import (
 	"errors"
 
+	log "github.com/hmoragrega/f3-payments/pkg/logging"
 	"github.com/hmoragrega/f3-payments/pkg/persistence"
 	"github.com/hmoragrega/f3-payments/pkg/validation"
-	"github.com/labstack/gommon/log"
 )
 
 var (
@@ -64,12 +64,12 @@ func (s *service) Update(p *Payment) error {
 func (s *service) List() (PaymentCollection, error) {
 	i, err := s.repo.List()
 	if err != nil {
-		return nil, logError(ErrPaymentLookup, err)
+		return nil, log.Errors(ErrPaymentLookup, err)
 	}
 
 	l, ok := i.(PaymentCollection)
 	if !ok {
-		return nil, logError(ErrValidationFailed)
+		return nil, log.Errors(ErrValidationFailed)
 	}
 
 	return l, nil
@@ -79,16 +79,16 @@ func (s *service) List() (PaymentCollection, error) {
 func (s *service) Get(ID string) (*Payment, error) {
 	i, err := s.repo.Get(ID)
 	if err != nil {
-		return nil, logError(ErrPaymentLookup, err)
+		return nil, log.Errors(ErrPaymentLookup, err)
 	}
 
 	if i == nil {
-		return nil, logError(ErrPaymentNotFound)
+		return nil, log.Errors(ErrPaymentNotFound)
 	}
 
 	p, ok := i.(*Payment)
 	if !ok {
-		return nil, logError(ErrValidationFailed)
+		return nil, log.Errors(ErrValidationFailed)
 	}
 
 	return p, nil
@@ -97,7 +97,7 @@ func (s *service) Get(ID string) (*Payment, error) {
 // Delete deletes a
 func (s *service) Delete(ID string) error {
 	if err := s.repo.Delete(ID); err != nil {
-		return logError(ErrDeleteFailed)
+		return log.Errors(ErrDeleteFailed)
 	}
 
 	return nil
@@ -105,18 +105,12 @@ func (s *service) Delete(ID string) error {
 
 func (s *service) persist(p *Payment) error {
 	if err := s.validator.Validate(p); err != nil {
-		return logError(ErrValidationFailed, err)
+		return log.Errors(ErrValidationFailed, err)
 	}
 
 	if err := s.repo.Persist(p); err != nil {
-		return logError(ErrPersistFailed, err)
+		return log.Errors(ErrPersistFailed, err)
 	}
 
 	return nil
-}
-
-func logError(errs ...error) error {
-	log.Error("Payment Service error:", errs)
-
-	return errs[0]
 }
