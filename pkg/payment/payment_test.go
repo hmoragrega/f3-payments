@@ -22,7 +22,7 @@ func TestJSONApiMarshaling(t *testing.T) {
 		ID:       "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
 		Amount:   100.21,
 		Currency: "USD",
-		BeneficiaryParty: PaymentParty{
+		Beneficiary: Party{
 			Name:              "Wilfred Jeremiah Owens",
 			Address:           "1 The Beneficiary Localtown SE2",
 			BankID:            "403000",
@@ -32,7 +32,7 @@ func TestJSONApiMarshaling(t *testing.T) {
 			AccountNumberCode: "BBAN",
 			AccountType:       0,
 		},
-		DebtorParty: PaymentParty{
+		Debtor: Party{
 			Name:              "Emelia Jane Brown",
 			Address:           "10 Debtor Crescent Sourcetown NE1",
 			BankID:            "203301",
@@ -70,7 +70,7 @@ func TestJSONApiMarshaling(t *testing.T) {
 		Reference:            "Payment for Em's piano lessons",
 		SchemaPaymentType:    "ImmediatePayment",
 		SchemaPaymentSubType: "InternetBanking",
-		SponsorParty: PaymentParty{
+		Sponsor: Party{
 			AccountNumber: "56781234",
 			BankID:        "123123",
 			BankIDCode:    "GBDSC",

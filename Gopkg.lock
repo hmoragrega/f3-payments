@@ -10,6 +10,14 @@
   revision = "417d4eb8fb29f0e8d267b8833406418394dcd1ee"
 
 [[projects]]
+  digest = "1:297a3c21bf1d3b4695a222e43e982bb52b4b9e156ca2eadbe32b898d0a1ae551"
+  name = "github.com/asaskevich/govalidator"
+  packages = ["."]
+  pruneopts = "T"
+  revision = "ccb8e960c48f04d6935e72476ae4a51028f9e22f"
+  version = "v9"
+
+[[projects]]
   digest = "1:9f42202ac457c462ad8bb9642806d275af9ab4850cf0b1960b9c6f083d4a309a"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -125,6 +133,14 @@
   version = "v1.2.0"
 
 [[projects]]
+  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = "T"
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
+
+[[projects]]
   digest = "1:22aa691fe0213cb5c07d103f9effebcb7ad04bee45a0ce5fe5369d0ca2ec3a1f"
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
@@ -176,9 +192,20 @@
   version = "v1.2.1"
 
 [[projects]]
+  digest = "1:8d58d88a7b2a7440509bee60f3e865773e8f79e622817ddb63ba3cda9efba25a"
+  name = "github.com/stretchr/objx"
+  packages = ["."]
+  pruneopts = "T"
+  revision = "477a77ecc69700c7cdeb1fa9e129548e1c1c393c"
+  version = "v0.1.1"
+
+[[projects]]
   digest = "1:e95496462101745805bd4e041a5b841e108c7cf761264d53648246308de2761e"
   name = "github.com/stretchr/testify"
-  packages = ["assert"]
+  packages = [
+    "assert",
+    "mock",
+  ]
   pruneopts = "T"
   revision = "f35b8ab0b5a2cef36673838d662e249dd9c94686"
   version = "v1.2.2"
@@ -322,11 +349,16 @@
   analyzer-version = 1
   input-imports = [
     "github.com/Slemgrim/jsonapi",
+    "github.com/asaskevich/govalidator",
     "github.com/google/jsonapi",
     "github.com/labstack/echo",
     "github.com/labstack/echo/middleware",
+    "github.com/labstack/gommon/log",
+    "github.com/pkg/errors",
     "github.com/spf13/viper",
+    "github.com/stretchr/objx",
     "github.com/stretchr/testify/assert",
+    "github.com/stretchr/testify/mock",
     "gopkg.in/h2non/baloo.v3",
   ]
   solver-name = "gps-cdcl"
