@@ -142,6 +142,28 @@ func TestListPaymentsNotValid(t *testing.T) {
 	assert.Nil(t, result)
 }
 
+func TestDeletePaymentCorrectly(t *testing.T) {
+	s, r, _ := getServices()
+	p := &Payment{ID: "foo"}
+
+	r.On("Delete", p.ID).Return(nil)
+
+	err := s.Delete(p.ID)
+
+	assert.Nil(t, err)
+}
+
+func TestDeleteError(t *testing.T) {
+	s, r, _ := getServices()
+	p := &Payment{ID: "foo"}
+
+	r.On("Delete", p.ID).Return(errors.New("foo"))
+
+	err := s.Delete(p.ID)
+
+	assert.Equal(t, ErrDeleteFailed, err)
+}
+
 func getServices() (ServiceInterface, *persistence.MockRepository, *validation.MockValidator) {
 	r := &persistence.MockRepository{}
 	v := &validation.MockValidator{}

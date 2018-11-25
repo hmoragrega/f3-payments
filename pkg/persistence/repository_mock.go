@@ -26,5 +26,5 @@ func (r *MockRepository) Get(ID string) (interface{}, error) {
 
 // Delete deletes a payment
 func (r *MockRepository) Delete(ID string) error {
-	return nil
+	return r.Called(ID).Error(0)
 }

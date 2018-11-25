@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	// ErrPersistFailed is triggered when there is a failure with the repository
+	// ErrPersistFailed is triggered when there is a failure persisting a payment
 	ErrPersistFailed = errors.New("The payment could not be persisted")
 
 	// ErrValidationFailed is triggered when a payment is not valid
@@ -19,6 +19,9 @@ var (
 
 	// ErrPaymentLookup is triggered when a payment lookup fails
 	ErrPaymentLookup = errors.New("There has been an error getting payment")
+
+	// ErrDeleteFailed is triggered when there is a failure deleting a payment
+	ErrDeleteFailed = errors.New("The payment could not be deleted")
 )
 
 // ServiceInterface payment service public API
@@ -92,6 +95,10 @@ func (s *service) Get(ID string) (*Payment, error) {
 
 // Delete deletes a
 func (s *service) Delete(ID string) error {
+	if err := s.repo.Delete(ID); err != nil {
+		return ErrDeleteFailed
+	}
+
 	return nil
 }
 
