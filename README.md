@@ -47,3 +47,4 @@ make test-functional
 - API versioning
 - Pagination
 - Filter/Search the payment lists
+- Reconnect logic on MongoDB repository

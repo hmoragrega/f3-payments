@@ -2,12 +2,16 @@ package handlers
 
 import (
 	"encoding/json"
+	"net/http"
+
+	"github.com/hmoragrega/f3-payments/pkg/logging"
 
 	"github.com/google/jsonapi"
 	"github.com/labstack/echo"
-	"github.com/labstack/gommon/log"
 	"github.com/pkg/errors"
 )
+
+const jsonIndent = "  "
 
 var (
 	// ErrInvalidJSONAPI error triggered when marshaling a struct to json:api has failed
@@ -17,19 +21,43 @@ var (
 	ErrInvalidJSON = errors.New("The response could not be marshalled as json")
 )
 
+type jsonAPIError struct {
+	Status int    `json:"status"`
+	Detail string `json:"detail"`
+}
+
+type jsonAPIErrorPayload struct {
+	Errors []jsonAPIError `json:"errors"`
+}
+
 // JSONApiPretty creates a valid json:api response
 func JSONApiPretty(c echo.Context, code int, i interface{}) error {
 	payload, err := jsonapi.Marshal(i)
 	if err != nil {
-		log.Error(ErrInvalidJSONAPI, err)
-		return ErrInvalidJSONAPI
+		return logging.Errors(ErrInvalidJSONAPI, err)
 	}
 
-	b, err := json.MarshalIndent(payload, "", "  ")
+	b, err := json.MarshalIndent(payload, "", jsonIndent)
 	if err != nil {
-		log.Error(ErrInvalidJSON, err)
-		return ErrInvalidJSON
+		return logging.Errors(ErrInvalidJSON, err)
 	}
 
 	return c.Blob(code, jsonapi.MediaType, b)
+}
+
+// JSONApiErrorPrettyHanler http error handler
+func JSONApiErrorPrettyHanler(err error, c echo.Context) {
+
+	code := http.StatusInternalServerError
+
+	httpError, ok := err.(*echo.HTTPError)
+	if ok {
+		code = httpError.Code
+	}
+
+	jsonAPIError := &jsonAPIErrorPayload{
+		Errors: []jsonAPIError{{Status: code, Detail: err.Error()}},
+	}
+
+	c.JSONPretty(code, jsonAPIError, jsonIndent)
 }

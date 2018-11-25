@@ -60,3 +60,7 @@ required = ["github.com/stretchr/objx"]
 [[constraint]]
   name = "github.com/sirupsen/logrus"
   version = "1.2.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/globalsign/mgo"
