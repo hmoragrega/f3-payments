@@ -18,7 +18,13 @@ func TestJSONApiMarshaling(t *testing.T) {
 		t.Fatal("The payment fixture could not be unmarshaled as a json:api struct", err)
 	}
 
-	payment := &Payment{
+	payment := getValidPayment()
+
+	assert.Equal(t, expected, payment)
+}
+
+func getValidPayment() *Payment {
+	return &Payment{
 		ID:       "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
 		Amount:   100.21,
 		Currency: "USD",
@@ -76,8 +82,6 @@ func TestJSONApiMarshaling(t *testing.T) {
 			BankIDCode:    "GBDSC",
 		},
 	}
-
-	assert.Equal(t, expected, payment)
 }
 
 func getJSONPayment() []byte {

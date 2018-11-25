@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  db:
+    image: mongo:4.1
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=demo
+    ports:
+      - "27017:27017"
+    volumes:
+      - storage:/data/db
+    networks:
+      - backend
+
+volumes:
+  storage:
+
+networks:
+  backend:
