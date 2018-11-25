@@ -5,6 +5,7 @@ import (
 
 	"github.com/hmoragrega/f3-payments/pkg/persistence"
 	"github.com/hmoragrega/f3-payments/pkg/validation"
+	"github.com/labstack/gommon/log"
 )
 
 var (
@@ -53,7 +54,7 @@ func (s *service) Create(p *Payment) error {
 func (s *service) Update(p *Payment) error {
 	_, err := s.Get(p.ID)
 	if err != nil {
-		return err
+		return err // Is already logged by "Get"
 	}
 
 	return s.persist(p)
@@ -63,12 +64,12 @@ func (s *service) Update(p *Payment) error {
 func (s *service) List() (PaymentCollection, error) {
 	i, err := s.repo.List()
 	if err != nil {
-		return nil, ErrPaymentLookup
+		return nil, logError(ErrPaymentLookup, err)
 	}
 
 	l, ok := i.(PaymentCollection)
 	if !ok {
-		return nil, ErrValidationFailed
+		return nil, logError(ErrValidationFailed)
 	}
 
 	return l, nil
@@ -78,16 +79,16 @@ func (s *service) List() (PaymentCollection, error) {
 func (s *service) Get(ID string) (*Payment, error) {
 	i, err := s.repo.Get(ID)
 	if err != nil {
-		return nil, ErrPaymentLookup
+		return nil, logError(ErrPaymentLookup, err)
 	}
 
 	if i == nil {
-		return nil, ErrPaymentNotFound
+		return nil, logError(ErrPaymentNotFound)
 	}
 
 	p, ok := i.(*Payment)
 	if !ok {
-		return nil, ErrValidationFailed
+		return nil, logError(ErrValidationFailed)
 	}
 
 	return p, nil
@@ -96,7 +97,7 @@ func (s *service) Get(ID string) (*Payment, error) {
 // Delete deletes a
 func (s *service) Delete(ID string) error {
 	if err := s.repo.Delete(ID); err != nil {
-		return ErrDeleteFailed
+		return logError(ErrDeleteFailed)
 	}
 
 	return nil
@@ -104,12 +105,18 @@ func (s *service) Delete(ID string) error {
 
 func (s *service) persist(p *Payment) error {
 	if err := s.validator.Validate(p); err != nil {
-		return ErrValidationFailed
+		return logError(ErrValidationFailed, err)
 	}
 
 	if err := s.repo.Persist(p); err != nil {
-		return ErrPersistFailed
+		return logError(ErrPersistFailed, err)
 	}
 
 	return nil
+}
+
+func logError(errs ...error) error {
+	log.Error("Payment Service error:", errs)
+
+	return errs[0]
 }
