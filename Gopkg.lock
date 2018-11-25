@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  digest = "1:9f42202ac457c462ad8bb9642806d275af9ab4850cf0b1960b9c6f083d4a309a"
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  pruneopts = "T"
+  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
+  version = "v1.1.1"
+
+[[projects]]
   digest = "1:6b014c67cb522566c30ef02116f9acb50cd60954708cf92c6654e2985696db18"
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
@@ -16,6 +24,14 @@
   pruneopts = "T"
   revision = "c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9"
   version = "v1.4.7"
+
+[[projects]]
+  digest = "1:a714035b7733f5a2fdd5acd22acfa65433bb6c4d6fba07e04d45f001cc156a98"
+  name = "github.com/google/jsonapi"
+  packages = ["."]
+  pruneopts = "T"
+  revision = "46d3ced0434461be12e555852e2f1a9ed382e139"
+  version = "1.0.0"
 
 [[projects]]
   digest = "1:071bcbf82c289fba4d3f63c876bf4f0ba7eda625cd60795e0a03ccbf949e517a"
@@ -101,6 +117,14 @@
   version = "v1.2.0"
 
 [[projects]]
+  digest = "1:22aa691fe0213cb5c07d103f9effebcb7ad04bee45a0ce5fe5369d0ca2ec3a1f"
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  pruneopts = "T"
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
   digest = "1:b7bf9fd95d38ebe6726a63b7d0320611f7c920c64e2c8313eba0cec51926bf55"
   name = "github.com/spf13/afero"
   packages = [
@@ -142,6 +166,14 @@
   pruneopts = "T"
   revision = "2c12c60302a5a0e62ee102ca9bc996277c2f64f5"
   version = "v1.2.1"
+
+[[projects]]
+  digest = "1:e95496462101745805bd4e041a5b841e108c7cf761264d53648246308de2761e"
+  name = "github.com/stretchr/testify"
+  packages = ["assert"]
+  pruneopts = "T"
+  revision = "f35b8ab0b5a2cef36673838d662e249dd9c94686"
+  version = "v1.2.2"
 
 [[projects]]
   digest = "1:c468422f334a6b46a19448ad59aaffdfc0a36b08fdcc1c749a0b29b6453d7e59"
@@ -281,9 +313,11 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/google/jsonapi",
     "github.com/labstack/echo",
     "github.com/labstack/echo/middleware",
     "github.com/spf13/viper",
+    "github.com/stretchr/testify/assert",
     "gopkg.in/h2non/baloo.v3",
   ]
   solver-name = "gps-cdcl"
