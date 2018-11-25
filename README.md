@@ -42,6 +42,7 @@ make test-functional
 ```
 
 ## TODO
-- Use HTTPS for the API server
+- Use HTTPS protocol
 - Use authentication like a custom JWT based or full-fledge Oauth2
 - API versioning
+- Pagination

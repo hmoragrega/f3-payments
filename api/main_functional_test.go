@@ -7,15 +7,10 @@ import (
 	"net/http"
 	"testing"
 
-	"gopkg.in/h2non/baloo.v3"
+	baloo "gopkg.in/h2non/baloo.v3"
 )
 
-var client = getBalooClient()
-
-func getBalooClient() *baloo.Client {
-	initConfig()
-	return baloo.New(fmt.Sprintf("http://%s", getAddress()))
-}
+var client = getClient()
 
 func TestGetPaymentCollection(t *testing.T) {
 	client.Get("/payments").
@@ -41,16 +36,16 @@ func TestCreatePayment(t *testing.T) {
 		Done()
 }
 
-func TestPutPayment(t *testing.T) {
-	client.Put("/payments").
+func TestUpdatePayment(t *testing.T) {
+	client.Put("/payments/foo").
 		Expect(t).
 		Status(http.StatusOK).
 		BodyEquals("ok").
 		Done()
 }
 
-func TestUpdatePayment(t *testing.T) {
-	client.Patch("/payments").
+func TestPatchPayment(t *testing.T) {
+	client.Patch("/payments/foo").
 		Expect(t).
 		Status(http.StatusOK).
 		BodyEquals("ok").
@@ -63,4 +58,13 @@ func TestDeletePayment(t *testing.T) {
 		Status(http.StatusOK).
 		BodyEquals("ok").
 		Done()
+}
+
+func getClient() *baloo.Client {
+	initConfig()
+	return baloo.New(getEndpoint())
+}
+
+func getEndpoint() string {
+	return fmt.Sprintf("http://%s", getAddress())
 }

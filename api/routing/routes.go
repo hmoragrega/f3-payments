@@ -1,8 +1,7 @@
 package routing
 
 import (
-	"net/http"
-
+	"github.com/hmoragrega/f3-payments/api/handlers"
 	"github.com/labstack/echo"
 )
 
@@ -14,17 +13,12 @@ func RegisterRoutes(e *echo.Echo) {
 func registerPaymentRoutes(e *echo.Echo) {
 	//g := e.Group("payments")
 
-	e.GET("payments", dummyHandler)
-	e.GET("/payments/:id", dummyHandler)
+	e.GET("payments", handlers.GetPayments)
+	e.GET("/payments/:id", handlers.GetPayment)
 
 	// Non-safe methods
-	e.POST("/payments", dummyHandler)
-	e.PUT("/payments", dummyHandler)
-	e.PATCH("/payments", dummyHandler)
-	e.PUT("/payments", dummyHandler)
-	e.DELETE("/payments/:id", dummyHandler)
-}
-
-func dummyHandler(c echo.Context) error {
-	return c.String(http.StatusOK, "ok")
+	e.POST("/payments", handlers.CreatePayment)
+	e.PUT("/payments/:id", handlers.UpdatePayment)
+	e.PATCH("/payments/:id", handlers.PatchPayment)
+	e.DELETE("/payments/:id", handlers.DeletePayment)
 }
