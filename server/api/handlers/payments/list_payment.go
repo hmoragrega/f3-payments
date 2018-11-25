@@ -9,26 +9,23 @@ import (
 	"github.com/labstack/echo"
 )
 
-// ListPaymentHandler handler to get a collection of payments
-type ListPaymentHandler struct {
-	s payment.ServiceInterface
-}
+// ListPaymentHandler handle requests to get a list of payments
+func ListPaymentHandler(s payment.ServiceInterface) func(c echo.Context) error {
+	return func(c echo.Context) error {
+		l, err := s.List()
 
-// NewListPaymentHandler Factory method to create the list handler
-func NewListPaymentHandler(s payment.ServiceInterface) *ListPaymentHandler {
-	return &ListPaymentHandler{s}
-}
+		if err != nil {
+			code := http.StatusInternalServerError
+			switch err {
+			case payment.ErrValidationFailed:
+				code = http.StatusUnprocessableEntity
+			case payment.ErrPaymentLookup:
+				code = http.StatusServiceUnavailable
+			}
 
-// Handle returns all the paymentscollection of payments
-func (h *ListPaymentHandler) Handle(c echo.Context) error {
-	l, err := h.s.List()
+			return echo.NewHTTPError(code, err)
+		}
 
-	switch err {
-	case payment.ErrValidationFailed:
-		return echo.NewHTTPError(http.StatusUnprocessableEntity, err)
-	case payment.ErrPaymentLookup:
-		return echo.NewHTTPError(http.StatusInternalServerError, err)
+		return handlers.JSONApiPretty(c, http.StatusOK, *l)
 	}
-
-	return handlers.JSONApiPretty(c, http.StatusOK, *l)
 }

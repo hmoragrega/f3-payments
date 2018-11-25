@@ -88,7 +88,13 @@ func (m *MongoRepository) Get(ID string) (interface{}, error) {
 
 // Delete deletes an entity by the ID
 func (m *MongoRepository) Delete(ID string) error {
-	return nil
+	err := m.collection().RemoveId(ID)
+
+	if err != nil && err == mgo.ErrNotFound {
+		return nil
+	}
+
+	return err
 }
 
 func (m *MongoRepository) collection() *mgo.Collection {

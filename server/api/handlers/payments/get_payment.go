@@ -9,29 +9,25 @@ import (
 	"github.com/labstack/echo"
 )
 
-// GetPaymentHandler handler to get a single payment
-type GetPaymentHandler struct {
-	s payment.ServiceInterface
-}
+// GetPaymentHandler handle requests to get a payment by the id
+func GetPaymentHandler(s payment.ServiceInterface) func(c echo.Context) error {
+	return func(c echo.Context) error {
+		p, err := s.Get(c.Param("id"))
 
-// NewGetPaymentHandler Factory method to create the get handler
-func NewGetPaymentHandler(s payment.ServiceInterface) *GetPaymentHandler {
-	return &GetPaymentHandler{s}
-}
+		if err != nil {
+			code := http.StatusInternalServerError
+			switch err {
+			case payment.ErrPaymentNotFound:
+				code = http.StatusNotFound
+			case payment.ErrValidationFailed:
+				code = http.StatusUnprocessableEntity
+			case payment.ErrPaymentLookup:
+				code = http.StatusServiceUnavailable
+			}
 
-// Handle returns a single payments from the given ID
-func (h *GetPaymentHandler) Handle(c echo.Context) error {
+			return echo.NewHTTPError(code, err)
+		}
 
-	p, err := h.s.Get(c.Param("id"))
-
-	switch err {
-	case payment.ErrPaymentNotFound:
-		return echo.NewHTTPError(http.StatusNotFound, err)
-	case payment.ErrValidationFailed:
-		return echo.NewHTTPError(http.StatusUnprocessableEntity, err)
-	case payment.ErrPaymentLookup:
-		return echo.NewHTTPError(http.StatusInternalServerError, err)
+		return handlers.JSONApiPretty(c, http.StatusOK, p)
 	}
-
-	return handlers.JSONApiPretty(c, http.StatusOK, p)
 }

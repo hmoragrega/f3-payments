@@ -17,12 +17,12 @@ func RegisterRoutes(e *echo.Echo, d *DIC) error {
 func registerPaymentRoutes(e *echo.Echo, s payment.ServiceInterface) {
 	g := e.Group(payment.PaymentType)
 
-	g.GET("", payments.NewListPaymentHandler(s).Handle)
-	g.GET("/:id", payments.NewGetPaymentHandler(s).Handle)
+	g.GET("", payments.ListPaymentHandler(s))
+	g.GET("/:id", payments.GetPaymentHandler(s))
 
 	// Non-safe methods
-	g.POST("", payments.CreatePayment)
+	g.POST("", payments.CreatePaymentHandler(s))
 	g.PUT("/:id", payments.ReplacePayment)
 	g.PATCH("/:id", payments.UpdatePayment)
-	g.DELETE("/:id", payments.DeletePayment)
+	g.DELETE("/:id", payments.DeletePaymentHandler(s))
 }

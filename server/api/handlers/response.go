@@ -45,6 +45,11 @@ func JSONApiPretty(c echo.Context, code int, i interface{}) error {
 	return c.Blob(code, jsonapi.MediaType, b)
 }
 
+// JSONApiNoContentPretty sends an empty response
+func JSONApiNoContentPretty(c echo.Context) error {
+	return c.Blob(http.StatusNoContent, jsonapi.MediaType, nil)
+}
+
 // JSONApiErrorPrettyHanler http error handler
 func JSONApiErrorPrettyHanler(err error, c echo.Context) {
 
