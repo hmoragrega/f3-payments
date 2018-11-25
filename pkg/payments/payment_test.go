@@ -16,7 +16,9 @@ func TestJSONApiMarshaling(t *testing.T) {
 	}
 
 	payment := &Payment{
-		ID: "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
+		ID:       "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
+		Amount:   100.21,
+		Currency: "USD",
 	}
 
 	assert.Equal(t, expected, payment)
@@ -26,8 +28,12 @@ func getJSONPayment() []byte {
 	return []byte(`
 	{
 		"data": {
-			"type": "Payment",
-			"id": "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"
+			"type": "payments",
+			"id": "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
+			"attributes": {
+				"amount": 100.21,
+				"currency": "USD"
+			}
 		}
 	}`)
 }
