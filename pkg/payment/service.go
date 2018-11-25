@@ -13,6 +13,12 @@ var (
 
 	// ErrValidationFailed is triggered when a payment is not valid
 	ErrValidationFailed = errors.New("The payment is not valid")
+
+	// ErrPaymentNotFound is triggered when a payment is not found
+	ErrPaymentNotFound = errors.New("The payment has not been found")
+
+	// ErrPaymentLookup is triggered when a payment lookup fails
+	ErrPaymentLookup = errors.New("There has been an error getting payment")
 )
 
 // ServiceInterface payment service public API
@@ -37,20 +43,17 @@ func NewService(repo persistence.Repository, validator validation.Validator) Ser
 
 // Create creates a new payment
 func (s *service) Create(p *Payment) error {
-	if err := s.validator.Validate(p); err != nil {
-		return ErrValidationFailed
-	}
-
-	if err := s.repo.Persist(p); err != nil {
-		return ErrPersistFailed
-	}
-
-	return nil
+	return s.persist(p)
 }
 
 // Update updates an existing payment
 func (s *service) Update(p *Payment) error {
-	return nil
+	_, err := s.Get(p.ID)
+	if err != nil {
+		return err
+	}
+
+	return s.persist(p)
 }
 
 // List gets the collection of payments
@@ -60,10 +63,36 @@ func (s *service) List(string) (PaymentCollection, error) {
 
 // Get retrieves a single payment
 func (s *service) Get(ID string) (*Payment, error) {
-	return nil, nil
+	i, err := s.repo.Get(ID)
+	if err != nil {
+		return nil, ErrPaymentLookup
+	}
+
+	if i == nil {
+		return nil, ErrPaymentNotFound
+	}
+
+	p, ok := i.(*Payment)
+	if !ok {
+		return nil, ErrValidationFailed
+	}
+
+	return p, nil
 }
 
 // Delete deletes a
 func (s *service) Delete(ID string) error {
+	return nil
+}
+
+func (s *service) persist(p *Payment) error {
+	if err := s.validator.Validate(p); err != nil {
+		return ErrValidationFailed
+	}
+
+	if err := s.repo.Persist(p); err != nil {
+		return ErrPersistFailed
+	}
+
 	return nil
 }

@@ -19,7 +19,8 @@ func (r *MockRepository) List() (interface{}, error) {
 
 // Get returns a single payment
 func (r *MockRepository) Get(ID string) (interface{}, error) {
-	return nil, nil
+	args := r.Called(ID)
+	return args.Get(0), args.Error(1)
 }
 
 // Delete deletes a payment
