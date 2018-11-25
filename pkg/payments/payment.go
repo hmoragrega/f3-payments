@@ -21,6 +21,7 @@ type Payment struct {
 	ProcessingTime       time.Time          `jsonapi:"attr,processing_time"`
 	BeneficiaryParty     PaymentParty       `jsonapi:"attr,beneficiary_party"`
 	DebtorParty          PaymentParty       `jsonapi:"attr,debtor_party"`
+	SponsorParty         PaymentParty       `jsonapi:"attr,sponsor_party"`
 	ChargesInformation   ChargesInformation `jsonapi:"attr,charges_information"`
 	ForeignExchange      ForeignExchange    `jsonapi:"attr,fx"`
 }

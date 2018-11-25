@@ -68,6 +68,11 @@ func TestJSONApiMarshaling(t *testing.T) {
 		Reference:            "Payment for Em's piano lessons",
 		SchemaPaymentType:    "ImmediatePayment",
 		SchemaPaymentSubType: "InternetBanking",
+		SponsorParty: PaymentParty{
+			AccountNumber: "56781234",
+			BankID:        "123123",
+			BankIDCode:    "GBDSC",
+		},
 	}
 
 	assert.Equal(t, expected, payment)
@@ -132,7 +137,12 @@ func getJSONPayment() []byte {
 				"processing_time": 1543110881,
 				"reference": "Payment for Em's piano lessons",
 				"scheme_payment_sub_type": "InternetBanking",
-				"scheme_payment_type": "ImmediatePayment"
+				"scheme_payment_type": "ImmediatePayment",
+				"sponsor_party": {
+					"account_number": "56781234",
+					"bank_id": "123123",
+					"bank_id_code": "GBDSC"
+				}
 			}
 		}
 	}`)
