@@ -10,5 +10,5 @@ import (
 
 // GetPayments returns a collection of payments
 func GetPayments(c echo.Context) error {
-	return handlers.JSONApiPretty(c, http.StatusOK, payment.PaymentCollection{{ID: "foo"}})
+	return handlers.JSONApiPretty(c, http.StatusOK, payment.Collection{{ID: "foo"}})
 }

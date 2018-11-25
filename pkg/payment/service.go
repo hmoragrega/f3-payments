@@ -29,7 +29,7 @@ var (
 type ServiceInterface interface {
 	Create(p *Payment) error
 	Update(p *Payment) error
-	List() (PaymentCollection, error)
+	List() (Collection, error)
 	Get(ID string) (*Payment, error)
 	Delete(ID string) error
 }
@@ -61,13 +61,13 @@ func (s *service) Update(p *Payment) error {
 }
 
 // List gets the collection of payments
-func (s *service) List() (PaymentCollection, error) {
+func (s *service) List() (Collection, error) {
 	i, err := s.repo.List()
 	if err != nil {
 		return nil, log.Errors(ErrPaymentLookup, err)
 	}
 
-	l, ok := i.(PaymentCollection)
+	l, ok := i.(Collection)
 	if !ok {
 		return nil, log.Errors(ErrValidationFailed)
 	}

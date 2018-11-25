@@ -6,11 +6,11 @@ import (
 	"github.com/google/jsonapi"
 )
 
-// PaymentCollection represents a collection of payments
-type PaymentCollection []*Payment
+// Collection represents a collection of payments
+type Collection []*Payment
 
 // JSONAPILinks adds links to the json api response for the payment collection
-func (p PaymentCollection) JSONAPILinks() *jsonapi.Links {
+func (p Collection) JSONAPILinks() *jsonapi.Links {
 	return &jsonapi.Links{
 		"self": fmt.Sprintf("/%s", PaymentType),
 	}

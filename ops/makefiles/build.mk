@@ -2,19 +2,19 @@
 
 API_MAIN := server/api.go
 API_EXECUTABLE := bin/f3-payments-api
-FLAGS := -race
+FLAGS :=-v -race -timeout 10s
 
 test:
-	@go test -v ${FLAGS} ./...
+	@go test ${FLAGS} ./...
 
-test-unit: 
-	@go test -v -tags unit ${FLAGS} ./...
+test-unit:
+	@go test ${FLAGS} -tags unit ./...
 
 test-functional: 
-	@go test -v -tags functional ${FLAGS} ./...
+	@go test ${FLAGS} -tags functional ./...
 
 run:
-	@go run ${FLAGS} ${API_MAIN}
+	@go run ${API_MAIN}
 
 build:
 	@go build -o ${API_EXECUTABLE} ${API_MAIN} 

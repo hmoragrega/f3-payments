@@ -10,7 +10,7 @@ import (
 
 var client = getTestClient()
 
-func TestGetPaymentCollection(t *testing.T) {
+func TestGetCollection(t *testing.T) {
 	client.Get("/payments").
 		Expect(t).
 		Status(http.StatusOK).
