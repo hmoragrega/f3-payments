@@ -38,6 +38,17 @@ func TestJSONApiMarshaling(t *testing.T) {
 			AccountNumber:     "GB29XABC10161234567801",
 			AccountNumberCode: "IBAN",
 		},
+		ChargesInformation: ChargesInformation{
+			BearerCode: "SHAR",
+			SenderCharges: []Charge{
+				{Amount: 5.00, Currency: "GBP"},
+				{Amount: 10.00, Currency: "USD"},
+			},
+			ReceiverCharge: Charge{
+				Amount:   1.00,
+				Currency: "USD",
+			},
+		},
 	}
 
 	assert.Equal(t, expected, payment)
@@ -70,6 +81,20 @@ func getJSONPayment() []byte {
 					"bank_id": "203301",
 					"bank_id_code": "GBDSC",
 					"name": "Emelia Jane Brown"
+				},
+				"charges_information": {
+					"bearer_code": "SHAR",
+					"sender_charges": [{
+						"amount": 5.00,
+						"currency": "GBP"
+					}, {
+						"amount": 10.00,
+						"currency": "USD"
+					}],
+					"receiver_charge": {
+						"amount": 1.00,
+						"currency": "USD"
+					}
 				}
 			}
 		}
