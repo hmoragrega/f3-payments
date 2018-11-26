@@ -23,7 +23,7 @@ The development environment can be managed trough make commands
 
 ### Dependencies
 The API requires this infrastructure
-- (MongoDB)[https://www.mongodb.com/]
+- [MongoDB](https://www.mongodb.com/)
 
 To start the mongo server we will use a docker image managed with docker-compose
 ```
