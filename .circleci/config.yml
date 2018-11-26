@@ -3,10 +3,12 @@ jobs:
   build:
     working_directory: /go/src/github.com/hmoragrega/f3-payments
     docker:
-      - image: hmoragrega/f3-payments-ci:1.0.1
+      - image: hmoragrega/f3-payments-ci:1.0.2
     steps:
       - checkout
       - setup_remote_docker
+      - export F3_API_MONGO_IP=`echo $DOCKER_HOST | grep -oE [0-9\.]+ | head -n 1`
+      - export F3_API_MONGO_SERVER=$F3_API_MONGO_IP:27017
       - run: make dev
       - run: make mongo-wait-ready
       - run: make mongo-load-fixtures
