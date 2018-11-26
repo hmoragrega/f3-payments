@@ -2,7 +2,7 @@ version: '2'
 
 services:
   db:
-    image: mongo:4.1
+    image: mongo:3.6
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=demo

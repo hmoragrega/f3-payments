@@ -4,17 +4,17 @@
 [![Build Status](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/badges/build.png?b=master)](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/build-status/master)
 
 ## Pre-requisites
-This programs need to be installed in your machine to develop for this project
-- [Go v1.10](https://golang.org/)
-- [Docker](https://docs.docker.com/install/#releases)
-- [Docker-compose](https://docs.docker.com/compose/install/)
-- [GNU make](https://www.gnu.org/software/make/)
-- [MongoDB cli tools mongo and mongoimport](https://www.mongodb.com/) (only need if running integration tests for managing the fixtures)
+This are the programs that need to be on the development machine (and the version used)
+- [golang (>= v1.10)](https://golang.org/)
+- [docker (18.09.0)](https://docs.docker.com/install/#releases)
+- [docker-compose (1.8.0)](https://docs.docker.com/compose/install/)
+- [GNU make (>= 3.6)](https://www.gnu.org/software/make/)
+- [MongoDB tools (>= 3.6)](https://docs.mongodb.com/master/reference/program/mongoimport/#bin.mongoimport)
 
 ### Configuration
 The API can be configured trough environmental variables
-- `F3_API_IP`: The IP address of the to bind server
-- `F3_API_PORT`: The IP address of the to binf the API service (default: `80`)
+- `F3_API_IP`: The IP address of the to bind server (default: `127.0.0.1`)
+- `F3_API_PORT`: The IP address of the to binf the API service (default: `8080`)
 - `F3_API_LOG_FORMAT`: A log format compatible with (logrus)[https://github.com/sirupsen/logrus]
 - `F3_API_MONGO_SERVER`: The address of the mongo server (default: `127.0.0.1:27017`)
 - `F3_API_MONGO_USER`: The username to use to connect to mongo (default: `root`)

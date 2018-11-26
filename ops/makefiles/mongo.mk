@@ -25,5 +25,5 @@ mongo-wait-ready:
 mongo-drop-db:
 	@mongo mongodb://${F3API_MONGO_HOST}/f3api -u ${F3API_MONGO_USER} -p '${F3API_MONGO_PASS}' --authenticationDatabase admin --eval "db.payments.drop()"
 
-mongo-load-fixtures: mongo-drop-db
-	@mongoimport --host ${F3API_MONGO_HOST} -u ${F3API_MONGO_USER} -p ${F3API_MONGO_PASS} --authenticationDatabase admin --db f3api --collection payments --jsonArray --file ops/mongo/payments.json
+mongo-load-fixtures:
+	@mongoimport --host ${F3API_MONGO_HOST} -u ${F3API_MONGO_USER} -p ${F3API_MONGO_PASS} --authenticationDatabase admin --db f3api --collection payments --drop --jsonArray --file ops/mongo/payments.json
