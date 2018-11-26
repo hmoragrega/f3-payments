@@ -7,8 +7,8 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - export F3_API_MONGO_IP=`echo $DOCKER_HOST | grep -oE [0-9\.]+ | head -n 1`
-      - export F3_API_MONGO_SERVER=$F3_API_MONGO_IP:27017
+      - run: export F3_API_MONGO_IP=`echo $DOCKER_HOST | grep -oE [0-9\.]+ | head -n 1`
+      - run: export F3_API_MONGO_SERVER=$F3_API_MONGO_IP:27017
       - run: make dev
       - run: make mongo-wait-ready
       - run: make mongo-load-fixtures
