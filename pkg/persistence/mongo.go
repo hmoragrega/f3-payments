@@ -16,7 +16,7 @@ var (
 	ErrConnectionMongo = errors.New("The connection to mongo server has failed")
 
 	// single connection instance shared accross all mongo entity repositories
-	mongoDB *mgo.Database
+	session *mgo.Session
 )
 
 // MongoEntity is a entity that can be manged and persisted in mongo
@@ -45,6 +45,7 @@ type MongoConfig struct {
 
 // MongoRepository mongo DB implementation of repository
 type MongoRepository struct {
+	config MongoConfig
 	entity *MongoEntity
 }
 
@@ -55,7 +56,7 @@ func NewMongoRepository(config MongoConfig, entity *MongoEntity) (*MongoReposito
 		return nil, err
 	}
 
-	return &MongoRepository{entity}, nil
+	return &MongoRepository{config, entity}, nil
 }
 
 // Persist persists an entity and returns the id
@@ -99,8 +100,15 @@ func (m *MongoRepository) Delete(ID string) error {
 	return err
 }
 
+// CloseMongoSession closes the session to mongo
+func CloseMongoSession() {
+	if session != nil {
+		session.Close()
+	}
+}
+
 func (m *MongoRepository) collection() *mgo.Collection {
-	return mongoDB.C(m.entity.collection)
+	return session.DB(m.config.Database).C(m.entity.collection)
 }
 
 func connect(config MongoConfig) error {
@@ -108,7 +116,7 @@ func connect(config MongoConfig) error {
 	mtx.RLock()
 	defer mtx.RUnlock()
 
-	if mongoDB == nil {
+	if session == nil {
 		info := &mgo.DialInfo{
 			Addrs:    []string{config.Address},
 			Database: config.AuthDB,
@@ -117,12 +125,13 @@ func connect(config MongoConfig) error {
 			Timeout:  timeout * time.Second,
 		}
 
-		session, err := mgo.DialWithInfo(info)
+		var err error
+		session, err = mgo.DialWithInfo(info)
 		if err != nil {
 			return logging.Errors(ErrConnectionMongo, err)
 		}
 
-		mongoDB = session.DB(config.Database)
+		session.SetMode(mgo.Monotonic, true)
 	}
 
 	return nil
