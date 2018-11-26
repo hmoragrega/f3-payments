@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/hmoragrega/f3-payments
     docker:
       - image: hmoragrega/f3-payments-ci:1.0.1
     steps:
