@@ -4,7 +4,7 @@ import (
 	"github.com/asaskevich/govalidator"
 )
 
-// GoValidator uses thrid party govalidator to create a validator
+// GoValidator uses third party govalidator to create a validator
 type GoValidator struct{}
 
 // Validate checks if the given parameter is valid

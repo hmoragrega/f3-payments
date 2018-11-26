@@ -15,7 +15,7 @@ var (
 	// ErrConnectionMongo is triggered when the connection to mongo fails
 	ErrConnectionMongo = errors.New("The connection to mongo server has failed")
 
-	// single connection instance shared accross all mongo entity repositories
+	// single connection instance shared across all mongo entity repositories
 	session *mgo.Session
 )
 

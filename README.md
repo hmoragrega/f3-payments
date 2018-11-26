@@ -1,6 +1,8 @@
 # F3 payments
+[![Go Report Card](https://goreportcard.com/badge/github.com/hmoragrega/f3-payments)](https://goreportcard.com/report/github.com/hmoragrega/f3-payments)
 
 ## Pre-requisites
+- [Go v1.10](https://golang.org/)
 - [Docker](https://docs.docker.com/install/#releases)
 - [Docker-compose](https://docs.docker.com/compose/install/)
 - [GNU make](https://www.gnu.org/software/make/)
@@ -9,17 +11,42 @@
 The API can be configured trough environmental variables
 - `F3_API_IP`: The IP address of the to bind server
 - `F3_API_PORT`: The IP address of the to binf the API service (default: `80`)
+- `F3_API_LOG_FORMAT`: A log format compatible with (logrus)[https://github.com/sirupsen/logrus]
+- `F3_API_MONGO_SERVER`: The address of the mongo server (default: `127.0.0.1:27017`)
+- `F3_API_MONGO_USER`: The username to use to connect to mongo (default: `root`)
+- `F3_API_MONGO_PASS`: The password to use to connect to mongo (default: `demo`)
+- `F3_API_MONGO_DATABASE`: The API database (default: `f3api`)
+- `F3_API_MONGO_AUTH_DB`: The name of the mongo admin database (default: `admin`)
 
 ## Development environment
 The development environment can be managed trough make commands
 
+### Dependencies
+The API requires this infrastructure
+- (MongoDB)[https://www.mongodb.com/]
+
+To start the mongo server we will use a docker image managed with docker-compose
+```
+make dev
+```
+
+To stop it
+```
+make stop
+```
+
+To removed it
+```
+make down
+```
+
 ### Run
-This command will run the API for development
+This command will compile and run the API for development
 ```
 make run
 ```
 ### Build
-This command will build the API server binary and stored it as `bin/f3-payment-api`
+This command will compile and build the API server binary and stored it as `bin/f3-payment-api`
 ```
 make build
 ```
