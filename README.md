@@ -13,8 +13,8 @@ This programs need to be installed in your machine to develop for this project
 
 ### Configuration
 The API can be configured trough environmental variables
-- `F3_API_IP`: The IP address of the to bind server
-- `F3_API_PORT`: The IP address of the to binf the API service (default: `80`)
+- `F3_API_IP`: The IP address of the to bind server  (default: `8080:127.0.0.1`)
+- `F3_API_PORT`: The IP address of the to binf the API service (default: `8080`)
 - `F3_API_LOG_FORMAT`: A log format compatible with (logrus)[https://github.com/sirupsen/logrus]
 - `F3_API_MONGO_SERVER`: The address of the mongo server (default: `127.0.0.1:27017`)
 - `F3_API_MONGO_USER`: The username to use to connect to mongo (default: `root`)
