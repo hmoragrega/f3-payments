@@ -4,10 +4,12 @@
 [![Build Status](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/badges/build.png?b=master)](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/build-status/master)
 
 ## Pre-requisites
+This programs need to be installed in your machine to develop for this project
 - [Go v1.10](https://golang.org/)
 - [Docker](https://docs.docker.com/install/#releases)
 - [Docker-compose](https://docs.docker.com/compose/install/)
 - [GNU make](https://www.gnu.org/software/make/)
+- [MongoDB cli tools mongo and mongoimport](https://www.mongodb.com/) (only need if running integration tests for managing the fixtures)
 
 ### Configuration
 The API can be configured trough environmental variables
