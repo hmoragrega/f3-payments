@@ -22,18 +22,22 @@ func ReplacePaymentHandler(s payment.ServiceInterface) func(c echo.Context) erro
 		err := s.Update(c.Param("id"), p)
 
 		if err != nil {
-			code := http.StatusInternalServerError
-			switch err {
-			case payment.ErrValidationFailed:
-				code = http.StatusBadRequest
-			case payment.ErrPaymentLookup:
-			case payment.ErrPersistFailed:
-				code = http.StatusServiceUnavailable
-			}
-
-			return echo.NewHTTPError(code, err)
+			return getReplaceErrorResponse(err)
 		}
 
 		return handlers.JSONApiPretty(c, http.StatusOK, p)
 	}
+}
+
+func getReplaceErrorResponse(err error) error {
+	code := http.StatusInternalServerError
+	switch err {
+	case payment.ErrValidationFailed:
+		code = http.StatusBadRequest
+	case payment.ErrPaymentLookup:
+	case payment.ErrPersistFailed:
+		code = http.StatusServiceUnavailable
+	}
+
+	return echo.NewHTTPError(code, err)
 }

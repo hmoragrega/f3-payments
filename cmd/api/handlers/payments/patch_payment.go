@@ -23,21 +23,25 @@ func PatchPaymentHandler(s payment.ServiceInterface) func(c echo.Context) error 
 		o, err := s.Merge(c.Param("id"), p)
 
 		if err != nil {
-			code := http.StatusInternalServerError
-			switch err {
-			case payment.ErrPaymentNotFound:
-				code = http.StatusNotFound
-			case payment.ErrValidationFailed:
-				code = http.StatusBadRequest
-			case payment.ErrPaymentLookup:
-			case payment.ErrMergeFailed:
-			case payment.ErrPersistFailed:
-				code = http.StatusServiceUnavailable
-			}
-
-			return echo.NewHTTPError(code, err)
+			return getPatchErrorResponse(err)
 		}
 
 		return handlers.JSONApiPretty(c, http.StatusOK, o)
 	}
+}
+
+func getPatchErrorResponse(err error) error {
+	code := http.StatusInternalServerError
+	switch err {
+	case payment.ErrPaymentNotFound:
+		code = http.StatusNotFound
+	case payment.ErrValidationFailed:
+		code = http.StatusBadRequest
+	case payment.ErrPaymentLookup:
+	case payment.ErrMergeFailed:
+	case payment.ErrPersistFailed:
+		code = http.StatusServiceUnavailable
+	}
+
+	return echo.NewHTTPError(code, err)
 }

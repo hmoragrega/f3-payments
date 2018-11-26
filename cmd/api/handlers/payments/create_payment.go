@@ -23,17 +23,21 @@ func CreatePaymentHandler(s payment.ServiceInterface) func(c echo.Context) error
 		err := s.Create(p)
 
 		if err != nil {
-			code := http.StatusInternalServerError
-			switch err {
-			case payment.ErrValidationFailed:
-				code = http.StatusBadRequest
-			case payment.ErrPersistFailed:
-				code = http.StatusServiceUnavailable
-			}
-
-			return echo.NewHTTPError(code, err)
+			return getCreateErrorResponse(err)
 		}
 
 		return handlers.JSONApiPretty(c, http.StatusCreated, p)
 	}
+}
+
+func getCreateErrorResponse(err error) error {
+	code := http.StatusInternalServerError
+	switch err {
+	case payment.ErrValidationFailed:
+		code = http.StatusBadRequest
+	case payment.ErrPersistFailed:
+		code = http.StatusServiceUnavailable
+	}
+
+	return echo.NewHTTPError(code, err)
 }

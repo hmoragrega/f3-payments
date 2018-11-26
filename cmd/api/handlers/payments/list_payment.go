@@ -15,17 +15,21 @@ func ListPaymentHandler(s payment.ServiceInterface) func(c echo.Context) error {
 		l, err := s.List()
 
 		if err != nil {
-			code := http.StatusInternalServerError
-			switch err {
-			case payment.ErrValidationFailed:
-				code = http.StatusUnprocessableEntity
-			case payment.ErrPaymentLookup:
-				code = http.StatusServiceUnavailable
-			}
-
-			return echo.NewHTTPError(code, err)
+			return getListErrorResponse(err)
 		}
 
 		return handlers.JSONApiPretty(c, http.StatusOK, *l)
 	}
+}
+
+func getListErrorResponse(err error) error {
+	code := http.StatusInternalServerError
+	switch err {
+	case payment.ErrValidationFailed:
+		code = http.StatusUnprocessableEntity
+	case payment.ErrPaymentLookup:
+		code = http.StatusServiceUnavailable
+	}
+
+	return echo.NewHTTPError(code, err)
 }

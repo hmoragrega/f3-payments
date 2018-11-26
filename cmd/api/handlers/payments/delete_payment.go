@@ -15,15 +15,19 @@ func DeletePaymentHandler(s payment.ServiceInterface) func(c echo.Context) error
 		err := s.Delete(c.Param("id"))
 
 		if err != nil {
-			code := http.StatusInternalServerError
-			switch err {
-			case payment.ErrDeleteFailed:
-				code = http.StatusServiceUnavailable
-			}
-
-			return echo.NewHTTPError(code, err)
+			return getDeleteErrorResponse(err)
 		}
 
 		return handlers.JSONApiNoContentPretty(c)
 	}
+}
+
+func getDeleteErrorResponse(err error) error {
+	code := http.StatusInternalServerError
+	switch err {
+	case payment.ErrDeleteFailed:
+		code = http.StatusServiceUnavailable
+	}
+
+	return echo.NewHTTPError(code, err)
 }
