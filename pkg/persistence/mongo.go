@@ -49,7 +49,7 @@ type MongoRepository struct {
 }
 
 // NewMongoRepository factory method to get a new mongo repository
-func NewMongoRepository(config MongoConfig, entity *MongoEntity) (Repository, error) {
+func NewMongoRepository(config MongoConfig, entity *MongoEntity) (*MongoRepository, error) {
 	err := connect(config)
 	if err != nil {
 		return nil, err
