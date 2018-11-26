@@ -1,6 +1,7 @@
 # F3 payments
 [![Go Report Card](https://goreportcard.com/badge/github.com/hmoragrega/f3-payments)](https://goreportcard.com/report/github.com/hmoragrega/f3-payments)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/badges/build.png?b=master)](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/build-status/master)
 
 ## Pre-requisites
 - [Go v1.10](https://golang.org/)

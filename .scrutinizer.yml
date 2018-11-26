@@ -1,18 +1,6 @@
 build:
   environment:
-    go: "v1.10.3"
-    docker: true
-  services:
-    db: 
-      image: hub.docker.com/_/mongo/:4.1
-      env:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: demo
-      ports:
-        - 27017
-      ramdisks:
-        - /data/db
+    go: 'go1.10'
   tests:
     before:
-      - make mongo-load-fixtures
-      - make unit
+      - make test-unit
