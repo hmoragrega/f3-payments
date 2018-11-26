@@ -6,6 +6,7 @@ jobs:
       - image: hmoragrega/f3-payments-ci:1.0.1
     steps:
       - checkout
+      - setup_remote_docker
       - run: make dev
       - run: make mongo-wait-ready
       - run: make mongo-load-fixtures
