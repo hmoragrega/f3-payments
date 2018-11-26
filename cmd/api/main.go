@@ -1,8 +1,7 @@
 package main
 
 import (
-	"github.com/hmoragrega/f3-payments/server/api"
-	"github.com/hmoragrega/f3-payments/server/api/config"
+	"github.com/hmoragrega/f3-payments/cmd/api/config"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -14,6 +13,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	a := api.NewF3API(c, d)
-	a.Start()
+	api := NewF3API(c, d)
+	api.Start()
 }

@@ -175,7 +175,7 @@ func TestUpdateWithError(t *testing.T) {
 
 	err := s.Update(new.ID, new)
 
-	assert.Equal(t, ErrPersistFailed, err)
+	assert.Equal(t, ErrPaymentLookup, err)
 }
 
 func TestListPaymentsCorrectly(t *testing.T) {

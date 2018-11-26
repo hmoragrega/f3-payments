@@ -5,7 +5,7 @@ import (
 	"log"
 	"os/exec"
 
-	"github.com/hmoragrega/f3-payments/server/api/config"
+	"github.com/hmoragrega/f3-payments/cmd/api/config"
 	baloo "gopkg.in/h2non/baloo.v3"
 )
 

@@ -1,8 +1,8 @@
 package config
 
 import (
+	"github.com/hmoragrega/f3-payments/cmd/api/handlers/payments"
 	"github.com/hmoragrega/f3-payments/pkg/payment"
-	"github.com/hmoragrega/f3-payments/server/api/handlers/payments"
 	"github.com/labstack/echo"
 )
 

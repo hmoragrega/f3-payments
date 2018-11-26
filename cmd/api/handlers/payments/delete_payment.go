@@ -3,8 +3,8 @@ package payments
 import (
 	"net/http"
 
+	"github.com/hmoragrega/f3-payments/cmd/api/handlers"
 	"github.com/hmoragrega/f3-payments/pkg/payment"
-	"github.com/hmoragrega/f3-payments/server/api/handlers"
 
 	"github.com/labstack/echo"
 )

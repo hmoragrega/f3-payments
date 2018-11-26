@@ -1,8 +1,8 @@
-package api
+package main
 
 import (
-	"github.com/hmoragrega/f3-payments/server/api/config"
-	"github.com/hmoragrega/f3-payments/server/api/handlers"
+	"github.com/hmoragrega/f3-payments/cmd/api/config"
+	"github.com/hmoragrega/f3-payments/cmd/api/handlers"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )

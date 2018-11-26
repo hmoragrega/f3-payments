@@ -1,6 +1,6 @@
 .PHONY: all
 
-API_MAIN := server/api.go
+API_MAIN := cmd/api/main.go cmd/api/f3api.go
 API_EXECUTABLE := bin/f3-payments-api
 FLAGS :=-v -race -timeout 10s
 
