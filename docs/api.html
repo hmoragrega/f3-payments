@@ -1,0 +1,1694 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>F3Payments</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>
+        hljs.configure({
+            tabReplace: '    ',
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <style>body {
+    position: relative;
+}
+
+h1 {
+    margin-top: 5px;
+}
+
+h1, h2, h3, h4 {
+    color: #2b2b2b;
+}
+
+h2:after {
+    content: ' ';
+}
+
+h5 {
+    font-weight: bold;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    display: none;
+    position: absolute;
+    margin-left: 8px;
+}
+
+h1:hover a, h2:hover a, h3:hover a, h4:hover a, h5:hover a, h6:hover a {
+    color: #a5a5a5;
+    display: initial;
+}
+
+.nav.nav-tabs > li > a {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.tab-content {
+    padding-top: 8px;
+}
+
+.table {
+    margin-bottom: 8px;
+}
+
+pre {
+    border-radius: 0px;
+    border: none;
+}
+
+pre code {
+    margin: -9.5px;
+}
+
+.request {
+    margin-top: 12px;
+    margin-bottom: 24px;
+}
+
+.response-text-sample {
+    padding: 0px !important;
+}
+
+.response-text-sample pre {
+    margin-bottom: 0px;
+}
+
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 250px;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #2b2b2b;
+    padding-top: 20px;
+}
+
+#sidebar-wrapper ul {
+    width: 250px;
+}
+
+#sidebar-wrapper ul li {
+    margin-right: 10px;
+}
+
+#sidebar-wrapper ul li a:hover {
+    background: inherit;
+    text-decoration: none;
+}
+
+#sidebar-wrapper ul li a {
+    display: block;
+    color: #ECF0F1;
+    padding: 6px 15px;
+}
+
+#sidebar-wrapper ul li ul {
+    padding-left: 25px;
+}
+
+#sidebar-wrapper ul li ul li a {
+    padding: 1px 0px;
+}
+
+#sidebar-wrapper ul li a:hover,
+#sidebar-wrapper ul li a:focus {
+    color: #e0c46c;
+    border-right: solid 1px #e0c46c;
+}
+
+#sidebar-wrapper ul li.active > a {
+    color: #e0c46c;
+    border-right: solid 3px #e0c46c;
+}
+
+#sidebar-wrapper ul li:not(.active) ul {
+    display: none;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px 15px 15px 250px;
+}
+</style>
+</head>
+<body data-spy="scroll" data-target=".scrollspy">
+<div id="sidebar-wrapper">
+    <div class="scrollspy">
+    <ul id="main-menu" data-spy="affix" class="nav">
+        <li>
+            <a href="#doc-general-notes">General notes</a>
+        </li>
+        
+        <li>
+            <a href="#doc-api-detail">API detail</a>
+        </li>
+        
+        <li>
+            <a href="#request-payments">/payments</a>
+        </li>
+        
+        <li>
+            <a href="#request-payments-id">/payments/:id</a>
+        </li>
+        
+        <li>
+            <a href="#request-payments-id">/payments/:id</a>
+        </li>
+        
+        <li>
+            <a href="#request-payments">/payments</a>
+        </li>
+        
+        <li>
+            <a href="#request-payments-id">payments/:id</a>
+        </li>
+        
+        <li>
+            <a href="#request-payments-id">/payments/:id</a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+</div>
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>F3Payments</h1>
+
+                <h2 id="doc-general-notes">
+                    General notes
+                    <a href="#doc-general-notes"><i class="glyphicon glyphicon-link"></i></a>
+                </h2>
+
+                
+
+                
+
+                <h2 id="doc-api-detail">
+                    API detail
+                    <a href="#doc-api-detail"><i class="glyphicon glyphicon-link"></i></a>
+                </h2>
+
+                
+                
+                <div class="request">
+
+                    <h3 id="request-payments">
+                        /payments
+                        <a href="#request-payments"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-payments-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-payments-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-payments-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "http://127.0.0.1:8080/payments"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-payments-example-http">
+                                <pre><code class="hljs http">GET /payments HTTP/1.1
+Host: 127.0.0.1:8080</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-payments-responses-b486a4a8-12aa-475f-aeb5-310d56a4f86e" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-payments-responses-b486a4a8-12aa-475f-aeb5-310d56a4f86e">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:15:01 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>chunked</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "data": [
+        {
+            "type": "payments",
+            "id": "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
+            "attributes": {
+                "amount": 100.21,
+                "beneficiary_party": {
+                    "name": "Wilfred Jeremiah Owens",
+                    "address": "1 The Beneficiary Localtown SE2",
+                    "bank_id": "403000",
+                    "bank_id_code": "GBDSC",
+                    "account_name": "W Owens",
+                    "account_number": "31926819",
+                    "account_number_code": "BBAN"
+                },
+                "charges_information": {
+                    "bearer_code": "SHAR",
+                    "sender_charges": [
+                        {
+                            "amount": 5,
+                            "currency": "GBP"
+                        },
+                        {
+                            "amount": 10,
+                            "currency": "USD"
+                        }
+                    ],
+                    "receiver_charge": {
+                        "amount": 1,
+                        "currency": "USD"
+                    }
+                },
+                "currency": "USD",
+                "debtor_party": {
+                    "name": "Emelia Jane Brown",
+                    "address": "10 Debtor Crescent Sourcetown NE1",
+                    "bank_id": "203301",
+                    "bank_id_code": "GBDSC",
+                    "account_name": "EJ Brown Black",
+                    "account_number": "GB29XABC10161234567801",
+                    "account_number_code": "IBAN"
+                },
+                "end_to_end_reference": "Wil piano Jan",
+                "fx": {
+                    "contract_reference": "FX123",
+                    "exchange_rate": 2,
+                    "original_amount": {
+                        "amount": 200.42,
+                        "currency": "USD"
+                    }
+                },
+                "numeric_reference": "1002001",
+                "payment_id": "123456789012345678",
+                "payment_purpose": "Paying for goods/services",
+                "payment_scheme": "FPS",
+                "payment_type": "Credit",
+                "reference": "Payment for Em's piano lessons",
+                "scheme_payment_sub_type": "InternetBanking",
+                "scheme_payment_type": "ImmediatePayment",
+                "sponsor_party": {
+                    "bank_id": "123123",
+                    "bank_id_code": "GBDSC",
+                    "account_number": "56781234"
+                }
+            },
+            "links": {
+                "self": "/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"
+            },
+            "meta": {
+                "organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
+                "version": "1.0"
+            }
+        },
+        {
+            "type": "payments",
+            "id": "502758ff-505f-4d81-b9d2-83aa9c01ebe2",
+            "attributes": {
+                "amount": 100.21,
+                "beneficiary_party": {
+                    "name": "Wilfred Jeremiah Owens",
+                    "address": "1 The Beneficiary Localtown SE2",
+                    "bank_id": "403000",
+                    "bank_id_code": "GBDSC",
+                    "account_name": "W Owens",
+                    "account_number": "31926819",
+                    "account_number_code": "BBAN"
+                },
+                "charges_information": {
+                    "bearer_code": "SHAR",
+                    "sender_charges": [
+                        {
+                            "amount": 5,
+                            "currency": "GBP"
+                        },
+                        {
+                            "amount": 10,
+                            "currency": "USD"
+                        }
+                    ],
+                    "receiver_charge": {
+                        "amount": 1,
+                        "currency": "USD"
+                    }
+                },
+                "currency": "USD",
+                "debtor_party": {
+                    "name": "Emelia Jane Brown",
+                    "address": "10 Debtor Crescent Sourcetown NE1",
+                    "bank_id": "203301",
+                    "bank_id_code": "GBDSC",
+                    "account_name": "EJ Brown Black",
+                    "account_number": "GB29XABC10161234567801",
+                    "account_number_code": "IBAN"
+                },
+                "end_to_end_reference": "Wil piano Jan",
+                "fx": {
+                    "contract_reference": "FX123",
+                    "exchange_rate": 2,
+                    "original_amount": {
+                        "amount": 200.42,
+                        "currency": "USD"
+                    }
+                },
+                "numeric_reference": "1002001",
+                "payment_id": "123456789012345678",
+                "payment_purpose": "Paying for goods/services",
+                "payment_scheme": "FPS",
+                "payment_type": "Credit",
+                "reference": "Payment for Em's piano lessons",
+                "scheme_payment_sub_type": "InternetBanking",
+                "scheme_payment_type": "ImmediatePayment",
+                "sponsor_party": {
+                    "bank_id": "123123",
+                    "bank_id_code": "GBDSC",
+                    "account_number": "56781234"
+                }
+            },
+            "links": {
+                "self": "/payments/502758ff-505f-4d81-b9d2-83aa9c01ebe2"
+            },
+            "meta": {
+                "organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
+                "version": "1.0"
+            }
+        }
+    ],
+    "links": {
+        "self": "/payments"
+    }
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-payments-id">
+                        /payments/:id
+                        <a href="#request-payments-id"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-payments-id-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-payments-id-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-payments-id-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "http://127.0.0.1:8080/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-payments-id-example-http">
+                                <pre><code class="hljs http">GET /payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43 HTTP/1.1
+Host: 127.0.0.1:8080</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-payments-id-responses-0b94974b-6a51-439e-92a1-6f9d088501c7" data-toggle="tab">
+                                    
+                                    OK
+                                    
+                                </a>
+                            </li>
+                            
+                            <li role="presentation">
+                                <a href="#request-payments-id-responses-a4c21a94-44a4-4f5d-a35c-c81bd0944d95" data-toggle="tab">
+                                    
+                                    NotFound
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-payments-id-responses-0b94974b-6a51-439e-92a1-6f9d088501c7">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:16:11 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>chunked</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "data": {
+        "type": "payments",
+        "id": "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
+        "attributes": {
+            "amount": 100.21,
+            "beneficiary_party": {
+                "name": "Wilfred Jeremiah Owens",
+                "address": "1 The Beneficiary Localtown SE2",
+                "bank_id": "403000",
+                "bank_id_code": "GBDSC",
+                "account_name": "W Owens",
+                "account_number": "31926819",
+                "account_number_code": "BBAN"
+            },
+            "charges_information": {
+                "bearer_code": "SHAR",
+                "sender_charges": [
+                    {
+                        "amount": 5,
+                        "currency": "GBP"
+                    },
+                    {
+                        "amount": 10,
+                        "currency": "USD"
+                    }
+                ],
+                "receiver_charge": {
+                    "amount": 1,
+                    "currency": "USD"
+                }
+            },
+            "currency": "USD",
+            "debtor_party": {
+                "name": "Emelia Jane Brown",
+                "address": "10 Debtor Crescent Sourcetown NE1",
+                "bank_id": "203301",
+                "bank_id_code": "GBDSC",
+                "account_name": "EJ Brown Black",
+                "account_number": "GB29XABC10161234567801",
+                "account_number_code": "IBAN"
+            },
+            "end_to_end_reference": "Wil piano Jan",
+            "fx": {
+                "contract_reference": "FX123",
+                "exchange_rate": 2,
+                "original_amount": {
+                    "amount": 200.42,
+                    "currency": "USD"
+                }
+            },
+            "numeric_reference": "1002001",
+            "payment_id": "123456789012345678",
+            "payment_purpose": "Paying for goods/services",
+            "payment_scheme": "FPS",
+            "payment_type": "Credit",
+            "reference": "Payment for Em's piano lessons",
+            "scheme_payment_sub_type": "InternetBanking",
+            "scheme_payment_type": "ImmediatePayment",
+            "sponsor_party": {
+                "bank_id": "123123",
+                "bank_id_code": "GBDSC",
+                "account_number": "56781234"
+            }
+        },
+        "links": {
+            "self": "/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"
+        },
+        "meta": {
+            "organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
+            "version": "1.0"
+        }
+    }
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                            <div class="tab-pane" id="request-payments-id-responses-a4c21a94-44a4-4f5d-a35c-c81bd0944d95">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>404 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:16:48 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>87</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "errors": [
+        {
+            "status": 404,
+            "detail": "code=404, message=The payment has not been found"
+        }
+    ]
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-payments-id">
+                        /payments/:id
+                        <a href="#request-payments-id"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-payments-id-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-payments-id-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-payments-id-example-curl">
+                                <pre><code class="hljs curl">curl -X DELETE "http://127.0.0.1:8080/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-payments-id-example-http">
+                                <pre><code class="hljs http">DELETE /payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43 HTTP/1.1
+Host: 127.0.0.1:8080</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-payments-id-responses-6c01672f-71de-425b-9435-6348affeda64" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-payments-id-responses-6c01672f-71de-425b-9435-6348affeda64">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>204 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:21:33 GMT</td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-payments">
+                        /payments
+                        <a href="#request-payments"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-payments-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-payments-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-payments-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -d '{
+	"data": {
+		"type": "payments",
+		"attributes": {
+			"amount": 100.21,
+			"currency": "USD",
+			"beneficiary_party": {
+				"account_name": "W Owens",
+				"account_number": "31926819",
+				"account_number_code": "BBAN",
+				"account_type": 0,
+				"address": "1 The Beneficiary Localtown SE2",
+				"bank_id": "403000",
+				"bank_id_code": "GBDSC",
+				"name": "Wilfred Jeremiah Owens"
+			},
+			"debtor_party": {
+				"account_name": "EJ Brown Black",
+				"account_number": "GB29XABC10161234567801",
+				"account_number_code": "IBAN",
+				"address": "10 Debtor Crescent Sourcetown NE1",
+				"bank_id": "203301",
+				"bank_id_code": "GBDSC",
+				"name": "Emelia Jane Brown"
+			},
+			"charges_information": {
+				"bearer_code": "SHAR",
+				"sender_charges": [{
+					"amount": 5.00,
+					"currency": "GBP"
+				}, {
+					"amount": 10.00,
+					"currency": "USD"
+				}],
+				"receiver_charge": {
+					"amount": 1.00,
+					"currency": "USD"
+				}
+			},
+			"fx": {
+				"contract_reference": "FX123",
+				"exchange_rate": 2.00000,
+				"original_amount": {
+					"amount": 200.42,
+					"currency": "USD"
+				}
+			},
+			"end_to_end_reference": "Wil piano Jan",
+			"numeric_reference": "1002001",
+			"payment_id": "123456789012345678",
+			"payment_purpose": "Paying for goods/services",
+			"payment_scheme": "FPS",
+			"payment_type": "Credit",
+			"processing_time": 1543110881,
+			"reference": "Payment for Em's piano lessons",
+			"scheme_payment_sub_type": "InternetBanking",
+			"scheme_payment_type": "ImmediatePayment",
+			"sponsor_party": {
+				"account_number": "56781234",
+				"bank_id": "123123",
+				"bank_id_code": "GBDSC"
+			}
+		}
+	}
+}' "http://127.0.0.1:8080/payments"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-payments-example-http">
+                                <pre><code class="hljs http">POST /payments HTTP/1.1
+Host: 127.0.0.1:8080
+Content-Type: application/json
+
+{
+	"data": {
+		"type": "payments",
+		"attributes": {
+			"amount": 100.21,
+			"currency": "USD",
+			"beneficiary_party": {
+				"account_name": "W Owens",
+				"account_number": "31926819",
+				"account_number_code": "BBAN",
+				"account_type": 0,
+				"address": "1 The Beneficiary Localtown SE2",
+				"bank_id": "403000",
+				"bank_id_code": "GBDSC",
+				"name": "Wilfred Jeremiah Owens"
+			},
+			"debtor_party": {
+				"account_name": "EJ Brown Black",
+				"account_number": "GB29XABC10161234567801",
+				"account_number_code": "IBAN",
+				"address": "10 Debtor Crescent Sourcetown NE1",
+				"bank_id": "203301",
+				"bank_id_code": "GBDSC",
+				"name": "Emelia Jane Brown"
+			},
+			"charges_information": {
+				"bearer_code": "SHAR",
+				"sender_charges": [{
+					"amount": 5.00,
+					"currency": "GBP"
+				}, {
+					"amount": 10.00,
+					"currency": "USD"
+				}],
+				"receiver_charge": {
+					"amount": 1.00,
+					"currency": "USD"
+				}
+			},
+			"fx": {
+				"contract_reference": "FX123",
+				"exchange_rate": 2.00000,
+				"original_amount": {
+					"amount": 200.42,
+					"currency": "USD"
+				}
+			},
+			"end_to_end_reference": "Wil piano Jan",
+			"numeric_reference": "1002001",
+			"payment_id": "123456789012345678",
+			"payment_purpose": "Paying for goods/services",
+			"payment_scheme": "FPS",
+			"payment_type": "Credit",
+			"processing_time": 1543110881,
+			"reference": "Payment for Em's piano lessons",
+			"scheme_payment_sub_type": "InternetBanking",
+			"scheme_payment_type": "ImmediatePayment",
+			"sponsor_party": {
+				"account_number": "56781234",
+				"bank_id": "123123",
+				"bank_id_code": "GBDSC"
+			}
+		}
+	}
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-payments-responses-01207dc2-aa5c-405b-9a59-3efa487ad1fd" data-toggle="tab">
+                                    
+                                    Created
+                                    
+                                </a>
+                            </li>
+                            
+                            <li role="presentation">
+                                <a href="#request-payments-responses-8020d2a1-3b95-40d8-9e2f-16ff993c0f74" data-toggle="tab">
+                                    
+                                    BadRequest
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-payments-responses-01207dc2-aa5c-405b-9a59-3efa487ad1fd">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>201 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:11:52 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>chunked</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "data": {
+        "type": "payments",
+        "id": "6bbfaa26-3296-4335-95af-9fd3ce0ad68c",
+        "attributes": {
+            "amount": 100.21,
+            "beneficiary_party": {
+                "name": "Wilfred Jeremiah Owens",
+                "address": "Wilfred Jeremiah Owens",
+                "bank_id": "403000",
+                "bank_id_code": "GBDSC",
+                "account_name": "W Owens",
+                "account_number": "31926819",
+                "account_number_code": "BBAN"
+            },
+            "charges_information": {
+                "bearer_code": "SHAR",
+                "sender_charges": [
+                    {
+                        "amount": 5,
+                        "currency": "GBP"
+                    },
+                    {
+                        "amount": 10,
+                        "currency": "USD"
+                    }
+                ],
+                "receiver_charge": {
+                    "amount": 1,
+                    "currency": "USD"
+                }
+            },
+            "currency": "USD",
+            "debtor_party": {
+                "name": "Emelia Jane Brown",
+                "address": "Emelia Jane Brown",
+                "bank_id": "203301",
+                "bank_id_code": "GBDSC",
+                "account_name": "EJ Brown Black",
+                "account_number": "GB29XABC10161234567801",
+                "account_number_code": "IBAN"
+            },
+            "end_to_end_reference": "Wil piano Jan",
+            "fx": {
+                "contract_reference": "FX123",
+                "exchange_rate": 2,
+                "original_amount": {
+                    "amount": 200.42,
+                    "currency": "USD"
+                }
+            },
+            "numeric_reference": "1002001",
+            "payment_id": "123456789012345678",
+            "payment_purpose": "Paying for goods/services",
+            "payment_scheme": "FPS",
+            "payment_type": "Credit",
+            "processing_time": 1543110881,
+            "reference": "Payment for Em's piano lessons",
+            "scheme_payment_sub_type": "InternetBanking",
+            "scheme_payment_type": "ImmediatePayment",
+            "sponsor_party": {
+                "bank_id": "123123",
+                "bank_id_code": "GBDSC",
+                "account_number": "56781234"
+            }
+        },
+        "links": {
+            "self": "/payments/6bbfaa26-3296-4335-95af-9fd3ce0ad68c"
+        },
+        "meta": {
+            "organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
+            "version": "1.0"
+        }
+    }
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                            <div class="tab-pane" id="request-payments-responses-8020d2a1-3b95-40d8-9e2f-16ff993c0f74">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>400 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:23:18 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>81</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "errors": [
+        {
+            "status": 400,
+            "detail": "code=400, message=The payment is not valid"
+        }
+    ]
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-payments-id">
+                        payments/:id
+                        <a href="#request-payments-id"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-payments-id-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-payments-id-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-payments-id-example-curl">
+                                <pre><code class="hljs curl">curl -X PATCH -H "Content-Type: application/json" -d '{
+	"data": {
+		"type": "payments",
+		"attributes": {
+			"amount": 500.32,
+			"beneficiary_party": {
+				"account_name": "foo"
+			}
+		}
+	}
+}' "http://127.0.0.1:8080/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-payments-id-example-http">
+                                <pre><code class="hljs http">PATCH /payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43 HTTP/1.1
+Host: 127.0.0.1:8080
+Content-Type: application/json
+
+{
+	"data": {
+		"type": "payments",
+		"attributes": {
+			"amount": 500.32,
+			"beneficiary_party": {
+				"account_name": "foo"
+			}
+		}
+	}
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-payments-id-responses-18e28634-effb-4450-b41b-4385087bb8bf" data-toggle="tab">
+                                    
+                                    OK
+                                    
+                                </a>
+                            </li>
+                            
+                            <li role="presentation">
+                                <a href="#request-payments-id-responses-5d9f0b79-f22c-4662-ba54-6dbf8c86575a" data-toggle="tab">
+                                    
+                                    NotFound
+                                    
+                                </a>
+                            </li>
+                            
+                            <li role="presentation">
+                                <a href="#request-payments-id-responses-8035d759-6566-4df1-902e-7ab1945a4af1" data-toggle="tab">
+                                    
+                                    BadRequest
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-payments-id-responses-18e28634-effb-4450-b41b-4385087bb8bf">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:24:19 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>chunked</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "data": {
+        "type": "payments",
+        "id": "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
+        "attributes": {
+            "amount": 500.32,
+            "beneficiary_party": {
+                "name": "Wilfred Jeremiah Owens",
+                "address": "1 The Beneficiary Localtown SE2",
+                "bank_id": "403000",
+                "bank_id_code": "GBDSC",
+                "account_name": "foo",
+                "account_number": "31926819",
+                "account_number_code": "BBAN"
+            },
+            "charges_information": {
+                "bearer_code": "SHAR",
+                "sender_charges": [
+                    {
+                        "amount": 5,
+                        "currency": "GBP"
+                    },
+                    {
+                        "amount": 10,
+                        "currency": "USD"
+                    }
+                ],
+                "receiver_charge": {
+                    "amount": 1,
+                    "currency": "USD"
+                }
+            },
+            "currency": "USD",
+            "debtor_party": {
+                "name": "Emelia Jane Brown",
+                "address": "10 Debtor Crescent Sourcetown NE1",
+                "bank_id": "203301",
+                "bank_id_code": "GBDSC",
+                "account_name": "EJ Brown Black",
+                "account_number": "GB29XABC10161234567801",
+                "account_number_code": "IBAN"
+            },
+            "end_to_end_reference": "Wil piano Jan",
+            "fx": {
+                "contract_reference": "FX123",
+                "exchange_rate": 2,
+                "original_amount": {
+                    "amount": 200.42,
+                    "currency": "USD"
+                }
+            },
+            "numeric_reference": "1002001",
+            "payment_id": "123456789012345678",
+            "payment_purpose": "Paying for goods/services",
+            "payment_scheme": "FPS",
+            "payment_type": "Credit",
+            "reference": "Payment for Em's piano lessons",
+            "scheme_payment_sub_type": "InternetBanking",
+            "scheme_payment_type": "ImmediatePayment",
+            "sponsor_party": {
+                "bank_id": "123123",
+                "bank_id_code": "GBDSC",
+                "account_number": "56781234"
+            }
+        },
+        "links": {
+            "self": "/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"
+        },
+        "meta": {
+            "organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
+            "version": "1.0"
+        }
+    }
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                            <div class="tab-pane" id="request-payments-id-responses-5d9f0b79-f22c-4662-ba54-6dbf8c86575a">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>404 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:24:43 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>87</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "errors": [
+        {
+            "status": 404,
+            "detail": "code=404, message=The payment has not been found"
+        }
+    ]
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                            <div class="tab-pane" id="request-payments-id-responses-8035d759-6566-4df1-902e-7ab1945a4af1">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>400 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:25:03 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>78</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "errors": [
+        {
+            "status": 400,
+            "detail": "code=400, message=Invalid type provided"
+        }
+    ]
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-payments-id">
+                        /payments/:id
+                        <a href="#request-payments-id"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div></div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-payments-id-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-payments-id-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-payments-id-example-curl">
+                                <pre><code class="hljs curl">curl -X PUT -H "Content-Type: application/json" -d '{
+    "data": {
+        "type": "payments",
+        "id": "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
+        "attributes": {
+            "amount": 200.12,
+            "beneficiary_party": {
+                "name": "Wilfred Jeremiah Owens",
+                "address": "1 The Beneficiary Localtown SE2",
+                "bank_id": "403000",
+                "bank_id_code": "GBDSC",
+                "account_name": "W Owens",
+                "account_number": "31926819",
+                "account_number_code": "BBAN"
+            },
+            "charges_information": {
+                "bearer_code": "SHAR",
+                "sender_charges": [
+                    {
+                        "amount": 5,
+                        "currency": "GBP"
+                    },
+                    {
+                        "amount": 10,
+                        "currency": "USD"
+                    }
+                ],
+                "receiver_charge": {
+                    "amount": 1,
+                    "currency": "USD"
+                }
+            },
+            "currency": "USD",
+            "debtor_party": {
+                "name": "Emelia Jane Brown",
+                "address": "10 Debtor Crescent Sourcetown NE1",
+                "bank_id": "203301",
+                "bank_id_code": "GBDSC",
+                "account_name": "EJ Brown Black",
+                "account_number": "GB29XABC10161234567801",
+                "account_number_code": "IBAN"
+            },
+            "end_to_end_reference": "Wil piano Jan",
+            "fx": {
+                "contract_reference": "FX123",
+                "exchange_rate": 2,
+                "original_amount": {
+                    "amount": 200.42,
+                    "currency": "USD"
+                }
+            },
+            "numeric_reference": "1002001",
+            "payment_id": "123456789012345678",
+            "payment_purpose": "Paying for goods/services",
+            "payment_scheme": "FPS",
+            "payment_type": "Credit",
+            "reference": "Payment for Em's piano lessons",
+            "scheme_payment_sub_type": "InternetBanking",
+            "scheme_payment_type": "ImmediatePayment",
+            "sponsor_party": {
+                "bank_id": "123123",
+                "bank_id_code": "GBDSC",
+                "account_number": "56781234"
+            }
+        },
+        "links": {
+            "self": "/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"
+        },
+        "meta": {
+            "organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
+            "version": "1.0"
+        }
+    }
+}' "http://127.0.0.1:8080/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-payments-id-example-http">
+                                <pre><code class="hljs http">PUT /payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43 HTTP/1.1
+Host: 127.0.0.1:8080
+Content-Type: application/json
+
+{
+    "data": {
+        "type": "payments",
+        "id": "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
+        "attributes": {
+            "amount": 200.12,
+            "beneficiary_party": {
+                "name": "Wilfred Jeremiah Owens",
+                "address": "1 The Beneficiary Localtown SE2",
+                "bank_id": "403000",
+                "bank_id_code": "GBDSC",
+                "account_name": "W Owens",
+                "account_number": "31926819",
+                "account_number_code": "BBAN"
+            },
+            "charges_information": {
+                "bearer_code": "SHAR",
+                "sender_charges": [
+                    {
+                        "amount": 5,
+                        "currency": "GBP"
+                    },
+                    {
+                        "amount": 10,
+                        "currency": "USD"
+                    }
+                ],
+                "receiver_charge": {
+                    "amount": 1,
+                    "currency": "USD"
+                }
+            },
+            "currency": "USD",
+            "debtor_party": {
+                "name": "Emelia Jane Brown",
+                "address": "10 Debtor Crescent Sourcetown NE1",
+                "bank_id": "203301",
+                "bank_id_code": "GBDSC",
+                "account_name": "EJ Brown Black",
+                "account_number": "GB29XABC10161234567801",
+                "account_number_code": "IBAN"
+            },
+            "end_to_end_reference": "Wil piano Jan",
+            "fx": {
+                "contract_reference": "FX123",
+                "exchange_rate": 2,
+                "original_amount": {
+                    "amount": 200.42,
+                    "currency": "USD"
+                }
+            },
+            "numeric_reference": "1002001",
+            "payment_id": "123456789012345678",
+            "payment_purpose": "Paying for goods/services",
+            "payment_scheme": "FPS",
+            "payment_type": "Credit",
+            "reference": "Payment for Em's piano lessons",
+            "scheme_payment_sub_type": "InternetBanking",
+            "scheme_payment_type": "ImmediatePayment",
+            "sponsor_party": {
+                "bank_id": "123123",
+                "bank_id_code": "GBDSC",
+                "account_number": "56781234"
+            }
+        },
+        "links": {
+            "self": "/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"
+        },
+        "meta": {
+            "organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
+            "version": "1.0"
+        }
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-payments-id-responses-483bfbd6-0ac3-4403-ad89-8b543e78ba52" data-toggle="tab">
+                                    
+                                    BadRequest
+                                    
+                                </a>
+                            </li>
+                            
+                            <li role="presentation">
+                                <a href="#request-payments-id-responses-ec8da5d2-8062-4e72-a500-fe43fa3b29ce" data-toggle="tab">
+                                    
+                                    OK (New)
+                                    
+                                </a>
+                            </li>
+                            
+                            <li role="presentation">
+                                <a href="#request-payments-id-responses-f10b2695-4e47-49c6-812f-4706dee19163" data-toggle="tab">
+                                    
+                                    OK (Updated)
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-payments-id-responses-483bfbd6-0ac3-4403-ad89-8b543e78ba52">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>400 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:26:21 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>81</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "errors": [
+        {
+            "status": 400,
+            "detail": "code=400, message=The payment is not valid"
+        }
+    ]
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                            <div class="tab-pane" id="request-payments-id-responses-ec8da5d2-8062-4e72-a500-fe43fa3b29ce">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:25:23 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>2039</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "data": {
+        "type": "payments",
+        "id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
+        "attributes": {
+            "amount": 800.11,
+            "beneficiary_party": {
+                "name": "Wilfred Jeremiah Owens",
+                "address": "Wilfred Jeremiah Owens",
+                "bank_id": "403000",
+                "bank_id_code": "GBDSC",
+                "account_name": "W Owens",
+                "account_number": "31926819",
+                "account_number_code": "BBAN"
+            },
+            "charges_information": {
+                "bearer_code": "SHAR",
+                "sender_charges": [
+                    {
+                        "amount": 5,
+                        "currency": "GBP"
+                    },
+                    {
+                        "amount": 10,
+                        "currency": "USD"
+                    }
+                ],
+                "receiver_charge": {
+                    "amount": 1,
+                    "currency": "USD"
+                }
+            },
+            "currency": "USD",
+            "debtor_party": {
+                "name": "Emelia Jane Brown",
+                "address": "Emelia Jane Brown",
+                "bank_id": "203301",
+                "bank_id_code": "GBDSC",
+                "account_name": "EJ Brown Black",
+                "account_number": "GB29XABC10161234567801",
+                "account_number_code": "IBAN"
+            },
+            "end_to_end_reference": "Wil piano Jan",
+            "fx": {
+                "contract_reference": "FX123",
+                "exchange_rate": 2,
+                "original_amount": {
+                    "amount": 200.42,
+                    "currency": "USD"
+                }
+            },
+            "numeric_reference": "1002001",
+            "payment_id": "123456789012345678",
+            "payment_purpose": "Paying for goods/services",
+            "payment_scheme": "FPS",
+            "payment_type": "Credit",
+            "reference": "Payment for Em's piano lessons",
+            "scheme_payment_sub_type": "InternetBanking",
+            "scheme_payment_type": "ImmediatePayment",
+            "sponsor_party": {
+                "bank_id": "123123",
+                "bank_id_code": "GBDSC",
+                "account_number": "56781234"
+            }
+        },
+        "links": {
+            "self": "/payments/743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb"
+        },
+        "meta": {
+            "organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
+            "version": "1.0"
+        }
+    }
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                            <div class="tab-pane" id="request-payments-id-responses-f10b2695-4e47-49c6-812f-4706dee19163">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 </td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>*</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>application/vnd.api+json</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Origin</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>Mon, 26 Nov 2018 11:25:52 GMT</td></tr>
+                                    
+                                    <tr><th style="width: 20%;"></th><td>2039</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "data": {
+        "type": "payments",
+        "id": "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
+        "attributes": {
+            "amount": 800.11,
+            "beneficiary_party": {
+                "name": "Wilfred Jeremiah Owens",
+                "address": "Wilfred Jeremiah Owens",
+                "bank_id": "403000",
+                "bank_id_code": "GBDSC",
+                "account_name": "W Owens",
+                "account_number": "31926819",
+                "account_number_code": "BBAN"
+            },
+            "charges_information": {
+                "bearer_code": "SHAR",
+                "sender_charges": [
+                    {
+                        "amount": 5,
+                        "currency": "GBP"
+                    },
+                    {
+                        "amount": 10,
+                        "currency": "USD"
+                    }
+                ],
+                "receiver_charge": {
+                    "amount": 1,
+                    "currency": "USD"
+                }
+            },
+            "currency": "USD",
+            "debtor_party": {
+                "name": "Emelia Jane Brown",
+                "address": "Emelia Jane Brown",
+                "bank_id": "203301",
+                "bank_id_code": "GBDSC",
+                "account_name": "EJ Brown Black",
+                "account_number": "GB29XABC10161234567801",
+                "account_number_code": "IBAN"
+            },
+            "end_to_end_reference": "Wil piano Jan",
+            "fx": {
+                "contract_reference": "FX123",
+                "exchange_rate": 2,
+                "original_amount": {
+                    "amount": 200.42,
+                    "currency": "USD"
+                }
+            },
+            "numeric_reference": "1002001",
+            "payment_id": "123456789012345678",
+            "payment_purpose": "Paying for goods/services",
+            "payment_scheme": "FPS",
+            "payment_type": "Credit",
+            "reference": "Payment for Em's piano lessons",
+            "scheme_payment_sub_type": "InternetBanking",
+            "scheme_payment_type": "ImmediatePayment",
+            "sponsor_party": {
+                "bank_id": "123123",
+                "bank_id_code": "GBDSC",
+                "account_number": "56781234"
+            }
+        },
+        "links": {
+            "self": "/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43"
+        },
+        "meta": {
+            "organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
+            "version": "1.0"
+        }
+    }
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("table:not(.table)").addClass('table table-bordered');
+    });
+</script>
+</body>
+</html>
