@@ -15,11 +15,12 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - go get -u github.com/golang/dep/cmd/dep
+  - docker pull jordyversmissen/wait-for
 
 install:
   - dep ensure
   - make dev
-  - sleep 10 # Wait for the app to boot (TODO: check port open)
+  - docker run jordyversmissen/wait-for http 127.0.0.1 8080
 
 script:
   - make test
