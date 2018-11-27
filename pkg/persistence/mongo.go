@@ -14,9 +14,6 @@ const timeout = 60
 var (
 	// ErrConnectionMongo is triggered when the connection to mongo fails
 	ErrConnectionMongo = errors.New("The connection to mongo server has failed")
-
-	// single connection instance shared across all mongo entity repositories
-	session *mgo.Session
 )
 
 // MongoEntity is a entity that can be manged and persisted in mongo
@@ -45,18 +42,14 @@ type MongoConfig struct {
 
 // MongoRepository mongo DB implementation of repository
 type MongoRepository struct {
-	config MongoConfig
-	entity *MongoEntity
+	session  *MongoSession
+	entity   *MongoEntity
+	database string
 }
 
 // NewMongoRepository factory method to get a new mongo repository
-func NewMongoRepository(config MongoConfig, entity *MongoEntity) (*MongoRepository, error) {
-	err := connect(config)
-	if err != nil {
-		return nil, err
-	}
-
-	return &MongoRepository{config, entity}, nil
+func NewMongoRepository(session *MongoSession, entity *MongoEntity, database string) *MongoRepository {
+	return &MongoRepository{session, entity, database}
 }
 
 // Persist persists an entity and returns the id
@@ -100,39 +93,58 @@ func (m *MongoRepository) Delete(ID string) error {
 	return err
 }
 
-// CloseMongoSession closes the session to mongo
-func CloseMongoSession() {
-	if session != nil {
-		session.Close()
-	}
-}
-
 func (m *MongoRepository) collection() *mgo.Collection {
-	return session.DB(m.config.Database).C(m.entity.collection)
+	return m.session.Session().DB(m.database).C(m.entity.collection)
 }
 
-func connect(config MongoConfig) error {
-	mtx := &sync.RWMutex{}
-	mtx.RLock()
-	defer mtx.RUnlock()
+// MongoSession A wrapper to handle the connection to mongo
+type MongoSession struct {
+	config  *MongoConfig
+	session *mgo.Session
+	sync.RWMutex
+}
 
-	if session == nil {
-		info := &mgo.DialInfo{
-			Addrs:    []string{config.Address},
-			Database: config.AuthDB,
-			Username: config.User,
-			Password: config.Pass,
-			Timeout:  timeout * time.Second,
-		}
+// NewMongoSession factory method to gest a connection to mongo
+func NewMongoSession(config *MongoConfig) *MongoSession {
+	return &MongoSession{
+		config: config,
+	}
+}
 
-		var err error
-		session, err = mgo.DialWithInfo(info)
-		if err != nil {
-			return logging.Errors(ErrConnectionMongo, err)
-		}
+// Connect connects to the mongo server
+func (s *MongoSession) Connect() error {
+	s.Lock()
+	defer s.Unlock()
 
-		session.SetMode(mgo.Monotonic, true)
+	info := &mgo.DialInfo{
+		Addrs:    []string{s.config.Address},
+		Database: s.config.AuthDB,
+		Username: s.config.User,
+		Password: s.config.Pass,
+		Timeout:  timeout * time.Second,
 	}
 
+	session, err := mgo.DialWithInfo(info)
+	if err != nil {
+		return logging.Errors(ErrConnectionMongo, err)
+	}
+
+	s.session = session
 	return nil
+}
+
+// Session return the session to mongo
+func (s *MongoSession) Session() *mgo.Session {
+	s.RLock()
+	defer s.RUnlock()
+
+	return s.session
+}
+
+// Close closes the connection to mongo
+func (s *MongoSession) Close() {
+	s.Lock()
+	defer s.Unlock()
+
+	s.session.Close()
 }

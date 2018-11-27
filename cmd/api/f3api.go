@@ -5,7 +5,6 @@ import (
 
 	"github.com/hmoragrega/f3-payments/cmd/api/config"
 	"github.com/hmoragrega/f3-payments/cmd/api/handlers"
-	"github.com/hmoragrega/f3-payments/pkg/persistence"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
@@ -41,7 +40,6 @@ func (a *F3API) Start() {
 
 // Shutdown terminates the api in a clean way
 func (a *F3API) Shutdown(ctx context.Context) error {
-	persistence.CloseMongoSession()
 	return a.Echo.Shutdown(ctx)
 }
 

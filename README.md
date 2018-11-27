@@ -4,7 +4,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/badges/build.png?b=master)](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/build-status/master)
 
 ## Pre-requisites
-This programs need to be installed in your machine to develop for this project
+These programs need to be installed in your machine to develop for this project
 - [Go v1.10](https://golang.org/)
 - [Docker](https://docs.docker.com/install/#releases)
 - [Docker-compose](https://docs.docker.com/compose/install/)
