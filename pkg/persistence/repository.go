@@ -7,4 +7,5 @@ type Repository interface {
 	List() (interface{}, error)
 	Get(ID string) (interface{}, error)
 	Delete(ID string) error
+	DeleteAll() error
 }

@@ -9,7 +9,6 @@ These programs need to be installed in your machine to develop for this project
 - [Docker](https://docs.docker.com/install/#releases)
 - [Docker-compose](https://docs.docker.com/compose/install/)
 - [GNU make](https://www.gnu.org/software/make/)
-- [MongoDB cli tools mongo and mongoimport](https://www.mongodb.com/) (only need if running integration tests for managing the fixtures)
 
 ### Configuration
 The API can be configured trough environmental variables

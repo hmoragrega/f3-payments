@@ -10,7 +10,7 @@ import (
 )
 
 func TestPatch(t *testing.T) {
-	reloadFixtures()
+	reloadFixtures(t)
 	client().Patch("/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43").
 		SetHeader("Content-Type", jsonapi.MediaType).
 		JSON(getPatchPaymentPayload()).

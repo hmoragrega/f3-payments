@@ -12,8 +12,9 @@ var (
 
 // DIC a simple dependency injection container
 type DIC struct {
-	mongoSession   *persistence.MongoSession
-	paymentService payment.ServiceInterface
+	paymentRepository *persistence.MongoRepository
+	mongoSession      *persistence.MongoSession
+	paymentService    payment.ServiceInterface
 }
 
 // NewDIC factory method to create a container
@@ -23,11 +24,13 @@ func NewDIC(c *Config) (*DIC, error) {
 		return nil, err
 	}
 
+	pr := persistence.NewMongoRepository(ms, createPaymentMongoEntity(), c.Mongo.Database)
 	v := &validation.GoValidator{}
 
 	return &DIC{
-		mongoSession:   ms,
-		paymentService: createPaymentService(c, ms, v),
+		mongoSession:      ms,
+		paymentRepository: pr,
+		paymentService:    payment.NewService(pr, v),
 	}, nil
 }
 
@@ -36,15 +39,14 @@ func (d *DIC) GetPaymentService() payment.ServiceInterface {
 	return d.paymentService
 }
 
+// GetPaymentRepository gets the payment repository
+func (d *DIC) GetPaymentRepository() persistence.Repository {
+	return d.paymentRepository
+}
+
 // Clean cleans the services and dependencies
 func (d *DIC) Clean() {
 	d.mongoSession.Close()
-}
-
-func createPaymentService(c *Config, ms *persistence.MongoSession, v validation.Validator) payment.ServiceInterface {
-	repo := persistence.NewMongoRepository(ms, createPaymentMongoEntity(), c.Mongo.Database)
-
-	return payment.NewService(repo, v)
 }
 
 func createPaymentMongoEntity() *persistence.MongoEntity {

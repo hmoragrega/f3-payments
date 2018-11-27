@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetList(t *testing.T) {
-	reloadFixtures()
+	reloadFixtures(t)
 	client().Get("/payments").
 		Expect(t).
 		Type(jsonApiContentTypePattern).
@@ -76,6 +76,7 @@ func getPaymentListFromFixtures() string {
 					"payment_purpose": "Paying for goods/services",
 					"payment_scheme": "FPS",
 					"payment_type": "Credit",
+					"processing_time": 1542727685,
 					"reference": "Payment for Em's piano lessons",
 					"scheme_payment_sub_type": "InternetBanking",
 					"scheme_payment_type": "ImmediatePayment",
@@ -148,6 +149,7 @@ func getPaymentListFromFixtures() string {
 					"payment_purpose": "Paying for goods/services",
 					"payment_scheme": "FPS",
 					"payment_type": "Credit",
+					"processing_time": 1543335309,
 					"reference": "Payment for Em's piano lessons",
 					"scheme_payment_sub_type": "InternetBanking",
 					"scheme_payment_type": "ImmediatePayment",
