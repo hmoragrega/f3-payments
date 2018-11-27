@@ -7,10 +7,8 @@ import (
 )
 
 // RegisterRoutes registers the routes availbale in the API
-func RegisterRoutes(e *echo.Echo, d *DIC) error {
+func RegisterRoutes(e *echo.Echo, d *DIC) {
 	registerPaymentRoutes(e, d.GetPaymentService())
-
-	return nil
 }
 
 // Registers all routes for the "/payments" group
