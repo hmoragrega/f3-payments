@@ -9,7 +9,7 @@ import (
 
 const (
 	f3EnvVarsPrefix           = "f3_api"
-	f3APIDefaultIP            = "127.0.0.1"
+	f3APIDefaultIP            = ""
 	f3APIDefaultPort          = "8080"
 	f3APIDefaultLogFormat     = "method=${method}, uri=${uri}, status=${status}\n"
 	f3APIDefaultMongoServer   = "127.0.0.1:27017"
