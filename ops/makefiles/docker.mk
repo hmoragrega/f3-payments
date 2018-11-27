@@ -2,10 +2,18 @@
 
 COMPOSE_FILE := ops/docker-compose.yml
 COMPOSE_PROJECT_NAME := "payments"
-COMPOSE = docker-compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE}
+
+ifeq ($(CI),true)
+	COMPOSE = docker-compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} -f ops/docker-compose.ci.yml
+else 
+	COMPOSE = docker-compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE}
+endif
 
 dev:
 	@${COMPOSE} up -d
+
+build:
+	@${COMPOSE} build
 
 stop:
 	@${COMPOSE} stop
@@ -21,4 +29,4 @@ logs:
 
 # Example: make enter service=db
 enter:
-	@${COMPOSE} exec ${service} /bin/bash
+	@${COMPOSE} exec ${service} /bin/sh

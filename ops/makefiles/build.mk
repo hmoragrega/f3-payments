@@ -16,5 +16,5 @@ test-functional:
 run:
 	@go run ${API_MAIN}
 
-build:
-	@go build -o ${API_EXECUTABLE} ${API_MAIN} 
+build-api:
+	go build -o ${API_EXECUTABLE} ${API_MAIN} 
