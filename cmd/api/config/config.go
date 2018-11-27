@@ -24,7 +24,6 @@ type Config struct {
 	ServerIP   string
 	ServerPort string
 	LogFormat  string
-	Database   string
 	Mongo      persistence.MongoConfig
 }
 

@@ -42,7 +42,7 @@ func (d *DIC) Clean() {
 }
 
 func createPaymentService(c *Config, ms *persistence.MongoSession, v validation.Validator) payment.ServiceInterface {
-	repo := persistence.NewMongoRepository(ms, createPaymentMongoEntity(), c.Database)
+	repo := persistence.NewMongoRepository(ms, createPaymentMongoEntity(), c.Mongo.Database)
 
 	return payment.NewService(repo, v)
 }
