@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/hmoragrega/f3-payments.svg?branch=master)](https://travis-ci.org/hmoragrega/f3-payments)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/badges/build.png?b=master)](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/build-status/master)
+[![codecov](https://codecov.io/gh/hmoragrega/f3-payments/branch/master/graph/badge.svg)](https://codecov.io/gh/hmoragrega/f3-payments)
 
 ## Pre-requisites
 These programs need to be installed in your machine to develop for this project

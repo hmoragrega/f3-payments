@@ -25,4 +25,11 @@ install:
   - wait-for-it -h 127.0.0.1 -p 8080 -t 60
 
 script:
-  - make test
+  - make coverage
+  - make stop
+  - docker run -d --rm --name coverage -v payments_storage:/coverage alpine tail -f /dev/null
+  - docker cp coverage:/coverage/coverage.functional.cov ./coverage.functional.cov
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
