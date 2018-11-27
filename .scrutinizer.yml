@@ -1,6 +1,3 @@
 build:
   environment:
     go: 'go1.10'
-  tests:
-    before:
-      - make test-unit
