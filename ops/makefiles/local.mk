@@ -12,6 +12,9 @@ stop:
 down:
 	@docker-compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} down
 
+rm:
+	@docker volume rm payments_storage
+
 logs:
 	@docker-compose -p ${COMPOSE_PROJECT_NAME} -f ${COMPOSE_FILE} logs -f --tail="10"
 
