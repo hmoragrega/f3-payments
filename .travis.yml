@@ -29,7 +29,7 @@ script:
   - make stop
   - docker run -d --rm --name coverage -v payments_storage:/coverage alpine tail -f /dev/null
   - docker cp coverage:/coverage/coverage.functional.cov ./coverage.functional.cov
-  - echo "mode: count" > ./coverage.txt
+  - echo "mode:\ count" > ./coverage.txt
   - tail -q -n +2 ./*.cov >> ./coverage.txt
 
 after_success:
