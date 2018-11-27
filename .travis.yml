@@ -14,15 +14,15 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - url -L https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > wait-for-it.sh
-  - chmod +x wait-for-it.sh
+  - curl -L https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > wait-for-it
+  - chmod +x wait-for-it
   - sudo mv wait-for-it.sh /usr/local/bin
   - go get -u github.com/golang/dep/cmd/dep
 
 install:
   - dep ensure
   - make dev
-  - wait-for-it.sh -h 127.0.0.1 -p 8080 -t 60
+  - wait-for-it -h 127.0.0.1 -p 8080 -t 60
 
 script:
   - make test
