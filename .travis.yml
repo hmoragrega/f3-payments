@@ -14,8 +14,10 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - curl -L https://github.com/jordyv/wait-for/releases/download/1.0.0/wait-for_linux_amd64 > wait-for
+  - chmod +x wait-for
+  - sudo mv wait-for /usr/local/bin
   - go get -u github.com/golang/dep/cmd/dep
-  - docker pull jordyversmissen/wait-for
 
 install:
   - dep ensure
