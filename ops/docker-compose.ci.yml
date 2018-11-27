@@ -3,12 +3,14 @@ version: '2'
 services:
   api:
     build: 
-      dockerfile: ./ops/docker/api/Dockerfile
+      dockerfile: ./ops/docker/api/ci.Dockerfile
       context: ../
     ports:
       - "8080:8080"
     environment:
       - F3_API_MONGO_SERVER=db
+    volumes:
+      - storage:/coverage
     depends_on:
       - db
     networks:
