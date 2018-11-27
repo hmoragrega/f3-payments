@@ -22,7 +22,7 @@ before_install:
 install:
   - dep ensure
   - make dev
-  - wait-for tcp 127.0.0.1 8080 -timeout 60
+  - wait-for tcp 127.0.0.1 8080 -t 60
 
 script:
   - make test
