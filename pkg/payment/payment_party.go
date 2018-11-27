@@ -3,7 +3,7 @@ package payment
 // Party represents an party involved in a payment, either the beneficiary or the debtor
 type Party struct {
 	Name              string `jsonapi:"attr,name,omitempty" json:"name,omitempty" bson:"name"`
-	Address           string `jsonapi:"attr,name,omitempty" json:"address,omitempty" bson:"address"`
+	Address           string `jsonapi:"attr,address,omitempty" json:"address,omitempty" bson:"address"`
 	BankID            string `jsonapi:"attr,bank_id" json:"bank_id" valid:"required" bson:"bank_id"`
 	BankIDCode        string `jsonapi:"attr,bank_id_code" json:"bank_id_code" valid:"required" bson:"bank_id_code"`
 	AccountName       string `jsonapi:"attr,account_name,omitempty"  json:"account_name,omitempty" bson:"account_name"`

@@ -33,3 +33,8 @@ func (r *MockRepository) Get(ID string) (interface{}, error) {
 func (r *MockRepository) Delete(ID string) error {
 	return r.Called(ID).Error(0)
 }
+
+// DeleteAll deletes all entitis in the repository
+func (r *MockRepository) DeleteAll() error {
+	return r.Called().Error(0)
+}

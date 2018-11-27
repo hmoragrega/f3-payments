@@ -11,7 +11,7 @@ import (
 )
 
 func TestReplaceCreating(t *testing.T) {
-	reloadFixtures()
+	reloadFixtures(t)
 	client().Put("/payments/b27dbd35-7e5a-44d3-81ad-2dda7ccb5a21").
 		SetHeader("Content-Type", jsonapi.MediaType).
 		JSON(getReplacePayload()).
@@ -23,7 +23,7 @@ func TestReplaceCreating(t *testing.T) {
 }
 
 func TestReplaceUpdating(t *testing.T) {
-	reloadFixtures()
+	reloadFixtures(t)
 	client().Put("/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43").
 		SetHeader("Content-Type", jsonapi.MediaType).
 		JSON(getReplacePayload()).
@@ -113,7 +113,7 @@ func getReplaceCreatingPaymentResponse(ID string) string {
 				"amount": 800.11,
 				"beneficiary_party": {
 					"name": "Wilfred Jeremiah Owens",
-					"address": "Wilfred Jeremiah Owens",
+					"address": "1 The Beneficiary Localtown SE2",
 					"bank_id": "403000",
 					"bank_id_code": "GBDSC",
 					"account_name": "W Owens",
@@ -140,7 +140,7 @@ func getReplaceCreatingPaymentResponse(ID string) string {
 				"currency": "USD",
 				"debtor_party": {
 					"name": "Emelia Jane Brown",
-					"address": "Emelia Jane Brown",
+					"address": "10 Debtor Crescent Sourcetown NE1",
 					"bank_id": "203301",
 					"bank_id_code": "GBDSC",
 					"account_name": "EJ Brown Black",

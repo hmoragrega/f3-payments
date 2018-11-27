@@ -93,6 +93,13 @@ func (m *MongoRepository) Delete(ID string) error {
 	return err
 }
 
+// DeleteAll deletes all entities in the collection
+func (m *MongoRepository) DeleteAll() error {
+	//fmt.Println(m.database, m.entity.collection)
+	_, err := m.collection().RemoveAll(nil)
+	return err
+}
+
 func (m *MongoRepository) collection() *mgo.Collection {
 	return m.session.Session().DB(m.database).C(m.entity.collection)
 }

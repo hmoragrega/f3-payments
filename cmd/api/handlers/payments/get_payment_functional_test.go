@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetOne(t *testing.T) {
-	reloadFixtures()
+	reloadFixtures(t)
 	client().Get("/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43").
 		Expect(t).
 		Status(http.StatusOK).
@@ -17,6 +17,7 @@ func TestGetOne(t *testing.T) {
 }
 
 func TestGetOneNotFoundError(t *testing.T) {
+	reloadFixtures(t)
 	client().Get("/payments/foo").
 		Expect(t).
 		Status(http.StatusNotFound).
@@ -82,6 +83,7 @@ func getPaymentFromFixtures() string {
 				"payment_purpose": "Paying for goods/services",
 				"payment_scheme": "FPS",
 				"payment_type": "Credit",
+				"processing_time": 1542727685,
 				"reference": "Payment for Em's piano lessons",
 				"scheme_payment_sub_type": "InternetBanking",
 				"scheme_payment_type": "ImmediatePayment",

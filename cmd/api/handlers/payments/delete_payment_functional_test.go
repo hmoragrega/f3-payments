@@ -8,7 +8,7 @@ import (
 )
 
 func TestDelete(t *testing.T) {
-	reloadFixtures()
+	reloadFixtures(t)
 	client().Delete("/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43").
 		Expect(t).
 		Type(jsonApiContentTypePattern).
@@ -82,6 +82,7 @@ func getPaymentListAfterDelete() string {
 					"payment_purpose": "Paying for goods/services",
 					"payment_scheme": "FPS",
 					"payment_type": "Credit",
+					"processing_time": 1543335309,
 					"reference": "Payment for Em's piano lessons",
 					"scheme_payment_sub_type": "InternetBanking",
 					"scheme_payment_type": "ImmediatePayment",
