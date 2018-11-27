@@ -1,4 +1,4 @@
-// +build functional !unit
+// +build functional
 
 package payments_test
 

@@ -1,55 +1,44 @@
-// +build functional !unit
+// +build functional
 
 package payments_test
 
 import (
 	"net/http"
 	"testing"
-
-	"github.com/google/jsonapi"
 )
 
-func TestPatch(t *testing.T) {
+func TestGetOne(t *testing.T) {
 	reloadFixtures(t)
-	client().Patch("/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43").
-		SetHeader("Content-Type", jsonapi.MediaType).
-		JSON(getPatchPaymentPayload()).
+	client().Get("/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43").
 		Expect(t).
-		Type(jsonApiContentTypePattern).
 		Status(http.StatusOK).
-		JSON(getPatchPaymentResponse()).
+		JSON(getPaymentFromFixtures()).
 		Done()
 }
 
-func getPatchPaymentPayload() string {
-	return `
-	{
-		"data": {
-			"type": "payments",
-			"attributes": {
-				"amount": 500.32,
-				"beneficiary_party": {
-					"account_name": "foo"
-				}
-			}
-		}
-	}`
+func TestGetOneNotFoundError(t *testing.T) {
+	reloadFixtures(t)
+	client().Get("/payments/foo").
+		Expect(t).
+		Status(http.StatusNotFound).
+		JSON(getErrorResponse(http.StatusNotFound, "code=404, message=The payment has not been found")).
+		Done()
 }
 
-func getPatchPaymentResponse() string {
+func getPaymentFromFixtures() string {
 	return `
 	{
 		"data": {
 			"type": "payments",
 			"id": "4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43",
 			"attributes": {
-				"amount": 500.32,
+				"amount": 100.21,
 				"beneficiary_party": {
 					"name": "Wilfred Jeremiah Owens",
 					"address": "1 The Beneficiary Localtown SE2",
 					"bank_id": "403000",
 					"bank_id_code": "GBDSC",
-					"account_name": "foo",
+					"account_name": "W Owens",
 					"account_number": "31926819",
 					"account_number_code": "BBAN"
 				},
@@ -94,6 +83,7 @@ func getPatchPaymentResponse() string {
 				"payment_purpose": "Paying for goods/services",
 				"payment_scheme": "FPS",
 				"payment_type": "Credit",
+				"processing_time": 1542727685,
 				"reference": "Payment for Em's piano lessons",
 				"scheme_payment_sub_type": "InternetBanking",
 				"scheme_payment_type": "ImmediatePayment",
