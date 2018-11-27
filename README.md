@@ -1,5 +1,6 @@
 # F3 payments
 [![Go Report Card](https://goreportcard.com/badge/github.com/hmoragrega/f3-payments)](https://goreportcard.com/report/github.com/hmoragrega/f3-payments)
+[![Build Status](https://travis-ci.org/hmoragrega/f3-payments.svg?branch=master)](https://travis-ci.org/hmoragrega/f3-payments)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/badges/build.png?b=master)](https://scrutinizer-ci.com/g/hmoragrega/f3-payments/build-status/master)
 
@@ -11,8 +12,8 @@ These programs need to be installed in your machine to develop for this project
 - [GNU make](https://www.gnu.org/software/make/)
 
 ### Configuration
-The API can be configured trough environmental variables
-- `F3_API_IP`: The IP address of the to bind server  (default: `8080:127.0.0.1`)
+The API have sensible defaults for the local environment but it can be configured trough environmental variables
+- `F3_API_IP`: The IP address that the server will listen to
 - `F3_API_PORT`: The IP address of the to binf the API service (default: `8080`)
 - `F3_API_LOG_FORMAT`: A log format compatible with (logrus)[https://github.com/sirupsen/logrus]
 - `F3_API_MONGO_SERVER`: The address of the mongo server (default: `127.0.0.1:27017`)
