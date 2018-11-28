@@ -54,12 +54,26 @@ func TestReplaceErrorPersistFailed(t *testing.T) {
 	assert.Equal(t, "code=503, message=The payment could not be persisted", err.Error())
 }
 
+func TestReplaceErrorLookupFailed(t *testing.T) {
+	m := &PaymentServiceMock{}
+	h := payments.ReplacePaymentHandler(m)
+	c := echoContext(http.MethodPut, "/payments/foo", strings.NewReader(`{"data": {"type": "payments"}}`))
+
+	m.On("Update", mock.Anything, mock.Anything).Return(payment.ErrPaymentLookup)
+
+	err := h(c)
+
+	assert.IsType(t, &echo.HTTPError{}, err)
+	assert.Equal(t, http.StatusServiceUnavailable, err.(*echo.HTTPError).Code)
+	assert.Equal(t, "code=503, message=There has been an error getting payment", err.Error())
+}
+
 func TestReplaceErrorServerError(t *testing.T) {
 	m := &PaymentServiceMock{}
-	h := payments.PatchPaymentHandler(m)
-	c := echoContext(http.MethodPatch, "/payments/foo", strings.NewReader(`{"data":{"type": "payments"}}`))
+	h := payments.ReplacePaymentHandler(m)
+	c := echoContext(http.MethodPut, "/payments/foo", strings.NewReader(`{"data":{"type": "payments"}}`))
 
-	m.On("Merge", mock.Anything, mock.Anything).Return(&payment.Payment{}, errors.New("unexpected"))
+	m.On("Update", mock.Anything, mock.Anything).Return(errors.New("unexpected"))
 
 	err := h(c)
 

@@ -38,7 +38,9 @@ func getPatchErrorResponse(err error) error {
 	case payment.ErrValidationFailed:
 		code = http.StatusBadRequest
 	case payment.ErrPaymentLookup:
+		code = http.StatusServiceUnavailable
 	case payment.ErrMergeFailed:
+		code = http.StatusServiceUnavailable
 	case payment.ErrPersistFailed:
 		code = http.StatusServiceUnavailable
 	}

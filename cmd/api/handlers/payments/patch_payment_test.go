@@ -69,6 +69,34 @@ func TestPatchErrorPersistFailed(t *testing.T) {
 	assert.Equal(t, "code=503, message=The payment could not be persisted", err.Error())
 }
 
+func TestPatchErrorLookupFailed(t *testing.T) {
+	m := &PaymentServiceMock{}
+	h := payments.PatchPaymentHandler(m)
+	c := echoContext(http.MethodPatch, "/payments/foo", strings.NewReader(`{"data":{"type": "payments"}}`))
+
+	m.On("Merge", mock.Anything, mock.Anything).Return(&payment.Payment{}, payment.ErrPaymentLookup)
+
+	err := h(c)
+
+	assert.IsType(t, &echo.HTTPError{}, err)
+	assert.Equal(t, http.StatusServiceUnavailable, err.(*echo.HTTPError).Code)
+	assert.Equal(t, "code=503, message=There has been an error getting payment", err.Error())
+}
+
+func TestPatchErrorMergeFailed(t *testing.T) {
+	m := &PaymentServiceMock{}
+	h := payments.PatchPaymentHandler(m)
+	c := echoContext(http.MethodPatch, "/payments/foo", strings.NewReader(`{"data":{"type": "payments"}}`))
+
+	m.On("Merge", mock.Anything, mock.Anything).Return(&payment.Payment{}, payment.ErrMergeFailed)
+
+	err := h(c)
+
+	assert.IsType(t, &echo.HTTPError{}, err)
+	assert.Equal(t, http.StatusServiceUnavailable, err.(*echo.HTTPError).Code)
+	assert.Equal(t, "code=503, message=The payment is not valid", err.Error())
+}
+
 func TestPatchErrorServerError(t *testing.T) {
 	m := &PaymentServiceMock{}
 	h := payments.PatchPaymentHandler(m)
