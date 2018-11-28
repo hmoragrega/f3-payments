@@ -142,6 +142,31 @@ func TestMergeValidationError(t *testing.T) {
 	assert.Nil(t, result)
 }
 
+func TestMergeNotFoundError(t *testing.T) {
+	s, r, _ := getServices()
+	new := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
+
+	r.On("Get", new.ID).Return(nil, nil)
+
+	result, err := s.Merge(new.ID, new)
+
+	assert.Equal(t, ErrPaymentNotFound, err)
+	assert.Nil(t, result)
+}
+
+func TestMergeErrorMerging(t *testing.T) {
+	s, r, _ := getServices()
+	old := &Collection{}
+	new := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
+
+	r.On("Get", new.ID).Return(old, nil)
+
+	result, err := s.Merge(new.ID, new)
+
+	assert.Equal(t, ErrMergeFailed, err)
+	assert.Nil(t, result)
+}
+
 func TestUpdateReplacingCorrectly(t *testing.T) {
 	s, r, v := getServices()
 	old := &Payment{ID: "foo", Amount: 10}
