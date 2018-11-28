@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/hmoragrega/f3-payments/pkg/merge"
 	"github.com/hmoragrega/f3-payments/pkg/payment"
 	"github.com/hmoragrega/f3-payments/pkg/persistence"
 	"github.com/hmoragrega/f3-payments/pkg/validation"
@@ -26,11 +27,12 @@ func NewDIC(c *Config) (*DIC, error) {
 
 	pr := persistence.NewMongoRepository(ms, createPaymentMongoEntity(), c.Mongo.Database)
 	v := &validation.GoValidator{}
+	m := &merge.MergoMerger{}
 
 	return &DIC{
 		mongoSession:      ms,
 		paymentRepository: pr,
-		paymentService:    payment.NewService(pr, v),
+		paymentService:    payment.NewService(pr, v, m),
 	}, nil
 }
 

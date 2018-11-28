@@ -4,9 +4,9 @@ import (
 	"errors"
 
 	log "github.com/hmoragrega/f3-payments/pkg/logging"
+	"github.com/hmoragrega/f3-payments/pkg/merge"
 	"github.com/hmoragrega/f3-payments/pkg/persistence"
 	"github.com/hmoragrega/f3-payments/pkg/validation"
-	"github.com/imdario/mergo"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -27,7 +27,7 @@ var (
 	ErrDeleteFailed = errors.New("The payment could not be deleted")
 
 	// ErrMergeFailed is triggered when a payment cannot be merged into another
-	ErrMergeFailed = errors.New("The payment is not valid")
+	ErrMergeFailed = errors.New("The resulting payment is not valid")
 )
 
 // ServiceInterface payment service public API
@@ -44,11 +44,16 @@ type ServiceInterface interface {
 type service struct {
 	repo      persistence.Repository
 	validator validation.Validator
+	merger    merge.Merger
 }
 
 // NewService factory method to create a payment service
-func NewService(repo persistence.Repository, validator validation.Validator) ServiceInterface {
-	return &service{repo, validator}
+func NewService(repo persistence.Repository, validator validation.Validator, merger merge.Merger) ServiceInterface {
+	return &service{
+		repo,
+		validator,
+		merger,
+	}
 }
 
 // Create creates a new payment
@@ -80,7 +85,7 @@ func (s *service) Merge(ID string, p *Payment) (*Payment, error) {
 	}
 
 	p.ID = ID
-	if err := mergo.Merge(o, p, mergo.WithOverride); err != nil {
+	if err := s.merger.Merge(o, p); err != nil {
 		return nil, log.Errors(ErrMergeFailed, err)
 	}
 

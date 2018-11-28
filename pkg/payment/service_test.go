@@ -6,6 +6,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/hmoragrega/f3-payments/pkg/merge"
 	"github.com/hmoragrega/f3-payments/pkg/persistence"
 	"github.com/hmoragrega/f3-payments/pkg/validation"
 
@@ -13,7 +14,7 @@ import (
 )
 
 func TestCreateCorrectly(t *testing.T) {
-	s, r, v := getServices()
+	s, r, v, _ := getServices()
 	p := &Payment{ID: "foo"}
 
 	v.On("Validate", p).Return(nil)
@@ -25,7 +26,7 @@ func TestCreateCorrectly(t *testing.T) {
 }
 
 func TestCreateWithValidationError(t *testing.T) {
-	s, _, v := getServices()
+	s, _, v, _ := getServices()
 	p := &Payment{ID: "foo"}
 
 	v.On("Validate", p).Return(errors.New("foo"))
@@ -36,7 +37,7 @@ func TestCreateWithValidationError(t *testing.T) {
 }
 
 func TestCreateWithPersitenceError(t *testing.T) {
-	s, r, v := getServices()
+	s, r, v, _ := getServices()
 	p := &Payment{ID: "foo"}
 
 	v.On("Validate", p).Return(nil)
@@ -48,7 +49,7 @@ func TestCreateWithPersitenceError(t *testing.T) {
 }
 
 func TestGetPaymentCorrectly(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 	p := &Payment{ID: "foo"}
 
 	r.On("Get", p.ID).Return(p, nil)
@@ -60,7 +61,7 @@ func TestGetPaymentCorrectly(t *testing.T) {
 }
 
 func TestGetPaymentLookupError(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 	p := &Payment{ID: "foo"}
 
 	r.On("Get", p.ID).Return(nil, errors.New("foo"))
@@ -72,7 +73,7 @@ func TestGetPaymentLookupError(t *testing.T) {
 }
 
 func TestGetPaymentNotFoundError(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 	p := &Payment{ID: "foo"}
 
 	r.On("Get", p.ID).Return(nil, nil)
@@ -84,7 +85,7 @@ func TestGetPaymentNotFoundError(t *testing.T) {
 }
 
 func TestGetPaymentNotValid(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 	p := &Payment{ID: "foo"}
 
 	r.On("Get", p.ID).Return("not a payment", nil)
@@ -96,30 +97,30 @@ func TestGetPaymentNotValid(t *testing.T) {
 }
 
 func TestMergeCorrectly(t *testing.T) {
-	s, r, v := getServices()
+	s, r, v, m := getServices()
 	old := &Payment{ID: "foo", Amount: 10}
 	new := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
-	merge := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
 
 	r.On("Get", new.ID).Return(old, nil)
-	v.On("Validate", merge).Return(nil)
-	r.On("Update", merge.ID, merge).Return(nil)
+	m.On("Merge", old, new).Return(nil)
+	v.On("Validate", old).Return(nil)
+	r.On("Update", old.ID, old).Return(nil)
 
 	result, err := s.Merge(new.ID, new)
 
-	assert.Equal(t, merge, result)
+	assert.Equal(t, old, result)
 	assert.Nil(t, err)
 }
 
 func TestMergeUpdateError(t *testing.T) {
-	s, r, v := getServices()
+	s, r, v, m := getServices()
 	old := &Payment{ID: "foo", Amount: 10}
 	new := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
-	merge := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
 
 	r.On("Get", new.ID).Return(old, nil)
-	v.On("Validate", merge).Return(nil)
-	r.On("Update", merge.ID, merge).Return(errors.New("foo"))
+	m.On("Merge", old, new).Return(nil)
+	v.On("Validate", old).Return(nil)
+	r.On("Update", old.ID, old).Return(errors.New("foo"))
 
 	result, err := s.Merge(new.ID, new)
 
@@ -128,13 +129,13 @@ func TestMergeUpdateError(t *testing.T) {
 }
 
 func TestMergeValidationError(t *testing.T) {
-	s, r, v := getServices()
+	s, r, v, m := getServices()
 	old := &Payment{ID: "foo", Amount: 10}
 	new := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
-	merge := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
 
 	r.On("Get", new.ID).Return(old, nil)
-	v.On("Validate", merge).Return(errors.New("foo"))
+	m.On("Merge", old, new).Return(nil)
+	v.On("Validate", old).Return(errors.New("foo"))
 
 	result, err := s.Merge(new.ID, new)
 
@@ -143,7 +144,7 @@ func TestMergeValidationError(t *testing.T) {
 }
 
 func TestMergeNotFoundError(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 	new := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
 
 	r.On("Get", new.ID).Return(nil, nil)
@@ -155,11 +156,12 @@ func TestMergeNotFoundError(t *testing.T) {
 }
 
 func TestMergeErrorMerging(t *testing.T) {
-	s, r, _ := getServices()
-	old := &Collection{}
+	s, r, _, m := getServices()
+	old := &Payment{}
 	new := &Payment{ID: "foo", Amount: 20, Reference: "ref"}
 
 	r.On("Get", new.ID).Return(old, nil)
+	m.On("Merge", old, new).Return(errors.New("Merge failed"))
 
 	result, err := s.Merge(new.ID, new)
 
@@ -168,7 +170,7 @@ func TestMergeErrorMerging(t *testing.T) {
 }
 
 func TestUpdateReplacingCorrectly(t *testing.T) {
-	s, r, v := getServices()
+	s, r, v, _ := getServices()
 	old := &Payment{ID: "foo", Amount: 10}
 	new := &Payment{ID: "foo", Amount: 20}
 
@@ -182,7 +184,7 @@ func TestUpdateReplacingCorrectly(t *testing.T) {
 }
 
 func TestUpdateCreatingCorrectly(t *testing.T) {
-	s, r, v := getServices()
+	s, r, v, _ := getServices()
 	new := &Payment{ID: "foo", Amount: 20}
 
 	r.On("Get", new.ID).Return(nil, nil)
@@ -195,7 +197,7 @@ func TestUpdateCreatingCorrectly(t *testing.T) {
 }
 
 func TestUpdateWithError(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 	new := &Payment{ID: "foo", Amount: 20}
 
 	r.On("Get", new.ID).Return(nil, errors.New("foo"))
@@ -206,7 +208,7 @@ func TestUpdateWithError(t *testing.T) {
 }
 
 func TestListPaymentsCorrectly(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 	c := &Collection{{ID: "foo"}}
 
 	r.On("List").Return(c, nil)
@@ -218,7 +220,7 @@ func TestListPaymentsCorrectly(t *testing.T) {
 }
 
 func TestListPaymentsLookupError(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 	c := &Collection{{ID: "foo"}}
 
 	r.On("List").Return(c, errors.New("foo"))
@@ -230,7 +232,7 @@ func TestListPaymentsLookupError(t *testing.T) {
 }
 
 func TestListPaymentsNotValid(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 
 	r.On("List").Return("not a collection", nil)
 
@@ -241,7 +243,7 @@ func TestListPaymentsNotValid(t *testing.T) {
 }
 
 func TestDeletePaymentCorrectly(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 	p := &Payment{ID: "foo"}
 
 	r.On("Delete", p.ID).Return(nil)
@@ -252,7 +254,7 @@ func TestDeletePaymentCorrectly(t *testing.T) {
 }
 
 func TestDeleteError(t *testing.T) {
-	s, r, _ := getServices()
+	s, r, _, _ := getServices()
 	p := &Payment{ID: "foo"}
 
 	r.On("Delete", p.ID).Return(errors.New("foo"))
@@ -262,10 +264,16 @@ func TestDeleteError(t *testing.T) {
 	assert.Equal(t, ErrDeleteFailed, err)
 }
 
-func getServices() (ServiceInterface, *persistence.MockRepository, *validation.MockValidator) {
+func getServices() (
+	ServiceInterface,
+	*persistence.MockRepository,
+	*validation.MockValidator,
+	*merge.MockMerger,
+) {
 	r := &persistence.MockRepository{}
 	v := &validation.MockValidator{}
-	s := NewService(r, v)
+	m := &merge.MockMerger{}
+	s := NewService(r, v, m)
 
-	return s, r, v
+	return s, r, v, m
 }
