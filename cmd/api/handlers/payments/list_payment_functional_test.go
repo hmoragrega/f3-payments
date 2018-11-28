@@ -1,110 +1,23 @@
+// +build functional
+
 package payments_test
 
 import (
-	"bytes"
-	"fmt"
-	"io"
-	"net/http/httptest"
-	"reflect"
+	"net/http"
 	"testing"
-
-	"github.com/google/jsonapi"
-	"github.com/labstack/echo"
-	"github.com/stretchr/testify/mock"
-
-	"github.com/hmoragrega/f3-payments/pkg/payment"
-
-	"github.com/hmoragrega/f3-payments/cmd/api/config"
-	baloo "gopkg.in/h2non/baloo.v3"
 )
 
-var testClient *baloo.Client
-
-var jsonApiContentTypePattern = `application/vnd\.api\+json`
-
-type PaymentServiceMock struct {
-	mock.Mock
+func TestGetList(t *testing.T) {
+	reloadFixtures(t)
+	client().Get("/payments").
+		Expect(t).
+		Type(jsonApiContentTypePattern).
+		Status(http.StatusOK).
+		JSON(getPaymentListFromFixtures()).
+		Done()
 }
 
-func (s *PaymentServiceMock) Create(p *payment.Payment) error {
-	return s.Called(p).Error(0)
-}
-
-func (s *PaymentServiceMock) Update(ID string, p *payment.Payment) error {
-	return s.Called(ID, p).Error(0)
-}
-
-func (s *PaymentServiceMock) Merge(ID string, p *payment.Payment) (*payment.Payment, error) {
-	args := s.Called(ID, p)
-	return args.Get(0).(*payment.Payment), args.Error(1)
-}
-
-func (s *PaymentServiceMock) List() (*payment.Collection, error) {
-	args := s.Called()
-	return args.Get(0).(*payment.Collection), args.Error(1)
-}
-
-func (s *PaymentServiceMock) Get(ID string) (*payment.Payment, error) {
-	args := s.Called(ID)
-	return args.Get(0).(*payment.Payment), args.Error(1)
-}
-
-func (s *PaymentServiceMock) Delete(ID string) error {
-	return s.Called(ID).Error(0)
-}
-
-func client() *baloo.Client {
-	if testClient == nil {
-		testClient = baloo.New(config.NewConfig().GetAPIEndpoint())
-	}
-
-	return testClient
-}
-
-func reloadFixtures(t *testing.T) {
-	r := bytes.NewReader([]byte(getFixtures()))
-	l, err := jsonapi.UnmarshalManyPayload(r, reflect.TypeOf(&payment.Payment{}))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	d, err := config.NewDIC(config.NewConfig())
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if err := d.GetPaymentRepository().DeleteAll(); err != nil {
-		t.Fatal(err)
-	}
-
-	for _, p := range l {
-		if err := d.GetPaymentRepository().Persist(p); err != nil {
-			t.Fatal(err)
-		}
-	}
-}
-
-func echoContext(method, target string, body io.Reader) echo.Context {
-	e := echo.New()
-	req := httptest.NewRequest(method, target, body)
-	req.Header.Set(echo.HeaderContentType, jsonapi.MediaType)
-	rec := httptest.NewRecorder()
-
-	return e.NewContext(req, rec)
-}
-
-func getErrorResponse(code int, detail string) string {
-	return fmt.Sprintf(`{
-		"errors": [
-			{
-				"status": %d,
-				"detail": "%s"
-			}
-		]
-	}`, code, detail)
-}
-
-func getFixtures() string {
+func getPaymentListFromFixtures() string {
 	return `
 	{
 		"data": [
