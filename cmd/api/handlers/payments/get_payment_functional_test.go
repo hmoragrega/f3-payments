@@ -21,7 +21,7 @@ func TestGetOneNotFoundError(t *testing.T) {
 	client().Get("/payments/foo").
 		Expect(t).
 		Status(http.StatusNotFound).
-		JSON(getErrorResponse(http.StatusNotFound, "code=404, message=The payment has not been found")).
+		JSON(getErrorResponse(http.StatusNotFound, "The payment has not been found")).
 		Done()
 }
 

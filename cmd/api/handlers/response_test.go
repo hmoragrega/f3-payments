@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/labstack/echo"
+	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )
@@ -21,4 +22,22 @@ func TestJSONApiPrettyJSONApiMarshalError(t *testing.T) {
 	err := JSONApiPretty(c, http.StatusOK, `invalid json:api`)
 
 	assert.Equal(t, ErrInvalidJSONAPI, err)
+}
+
+func TestGetCodeAndMessageUnkownError(t *testing.T) {
+	err := errors.New("foo")
+
+	code, msg := getCodeAndMessage(err)
+
+	assert.Equal(t, http.StatusInternalServerError, code)
+	assert.Equal(t, "foo", msg)
+}
+
+func TestGetCodeAndMessageEchoHTTPError(t *testing.T) {
+	err := echo.NewHTTPError(http.StatusBadRequest, "foo")
+
+	code, msg := getCodeAndMessage(err)
+
+	assert.Equal(t, http.StatusBadRequest, code)
+	assert.Equal(t, "foo", msg)
 }
