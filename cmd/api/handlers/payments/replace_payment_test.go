@@ -1,183 +1,69 @@
-// +build functional
+// +build unit
 
 package payments_test
 
 import (
-	"fmt"
+	"errors"
 	"net/http"
+	"strings"
 	"testing"
 
-	"github.com/google/jsonapi"
+	"github.com/hmoragrega/f3-payments/cmd/api/handlers/payments"
+	"github.com/hmoragrega/f3-payments/pkg/payment"
+	"github.com/labstack/echo"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
-func TestReplaceCreating(t *testing.T) {
-	reloadFixtures(t)
-	client().Put("/payments/b27dbd35-7e5a-44d3-81ad-2dda7ccb5a21").
-		SetHeader("Content-Type", jsonapi.MediaType).
-		JSON(getReplacePayload()).
-		Expect(t).
-		Type(jsonApiContentTypePattern).
-		Status(http.StatusOK).
-		JSON(getReplaceCreatingPaymentResponse("b27dbd35-7e5a-44d3-81ad-2dda7ccb5a21")).
-		Done()
+func TestReplaceErrorUnmarshalingPayload(t *testing.T) {
+	h := payments.ReplacePaymentHandler(&PaymentServiceMock{})
+	c := echoContext(http.MethodPut, "/payments/foo", strings.NewReader("invalid payload"))
+
+	err := h(c)
+
+	assert.IsType(t, &echo.HTTPError{}, err)
+	assert.Equal(t, http.StatusBadRequest, err.(*echo.HTTPError).Code)
+	assert.Equal(t, "code=400, message=invalid character 'i' looking for beginning of value", err.Error())
 }
 
-func TestReplaceUpdating(t *testing.T) {
-	reloadFixtures(t)
-	client().Put("/payments/4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43").
-		SetHeader("Content-Type", jsonapi.MediaType).
-		JSON(getReplacePayload()).
-		Expect(t).
-		Type(jsonApiContentTypePattern).
-		Status(http.StatusOK).
-		JSON(getReplaceCreatingPaymentResponse("4ee3a8d8-ca7b-4290-a52c-dd5b6165ec43")).
-		Done()
+func TestReplaceErrorValidationFailed(t *testing.T) {
+	m := &PaymentServiceMock{}
+	h := payments.ReplacePaymentHandler(m)
+	c := echoContext(http.MethodPut, "/payments/foo", strings.NewReader(`{"data": {"type": "payments"}}`))
+
+	m.On("Update", mock.Anything, mock.Anything).Return(payment.ErrValidationFailed)
+
+	err := h(c)
+
+	assert.IsType(t, &echo.HTTPError{}, err)
+	assert.Equal(t, http.StatusBadRequest, err.(*echo.HTTPError).Code)
+	assert.Equal(t, "code=400, message=The payment is not valid", err.Error())
 }
 
-func getReplacePayload() string {
-	return `
-	{
-		"data": {
-			"type": "payments",
-			"attributes": {
-				"amount": 800.11,
-				"currency": "USD",
-				"beneficiary_party": {
-					"account_name": "W Owens",
-					"account_number": "31926819",
-					"account_number_code": "BBAN",
-					"account_type": 0,
-					"address": "1 The Beneficiary Localtown SE2",
-					"bank_id": "403000",
-					"bank_id_code": "GBDSC",
-					"name": "Wilfred Jeremiah Owens"
-				},
-				"debtor_party": {
-					"account_name": "EJ Brown Black",
-					"account_number": "GB29XABC10161234567801",
-					"account_number_code": "IBAN",
-					"address": "10 Debtor Crescent Sourcetown NE1",
-					"bank_id": "203301",
-					"bank_id_code": "GBDSC",
-					"name": "Emelia Jane Brown"
-				},
-				"charges_information": {
-					"bearer_code": "SHAR",
-					"sender_charges": [{
-						"amount": 5.00,
-						"currency": "GBP"
-					}, {
-						"amount": 10.00,
-						"currency": "USD"
-					}],
-					"receiver_charge": {
-						"amount": 1.00,
-						"currency": "USD"
-					}
-				},
-				"fx": {
-					"contract_reference": "FX123",
-					"exchange_rate": 2.00000,
-					"original_amount": {
-						"amount": 200.42,
-						"currency": "USD"
-					}
-				},
-				"end_to_end_reference": "Wil piano Jan",
-				"numeric_reference": "1002001",
-				"payment_id": "123456789012345678",
-				"payment_purpose": "Paying for goods/services",
-				"payment_scheme": "FPS",
-				"payment_type": "Credit",
-				"processing_time": 1543110881,
-				"reference": "Payment for Em's piano lessons",
-				"scheme_payment_sub_type": "InternetBanking",
-				"scheme_payment_type": "ImmediatePayment",
-				"sponsor_party": {
-					"account_number": "56781234",
-					"bank_id": "123123",
-					"bank_id_code": "GBDSC"
-				}
-			}
-		}
-	}`
+func TestReplaceErrorPersistFailed(t *testing.T) {
+	m := &PaymentServiceMock{}
+	h := payments.ReplacePaymentHandler(m)
+	c := echoContext(http.MethodPut, "/payments/foo", strings.NewReader(`{"data": {"type": "payments"}}`))
+
+	m.On("Update", mock.Anything, mock.Anything).Return(payment.ErrPersistFailed)
+
+	err := h(c)
+
+	assert.IsType(t, &echo.HTTPError{}, err)
+	assert.Equal(t, http.StatusServiceUnavailable, err.(*echo.HTTPError).Code)
+	assert.Equal(t, "code=503, message=The payment could not be persisted", err.Error())
 }
 
-func getReplaceCreatingPaymentResponse(ID string) string {
-	return fmt.Sprintf(`
-	{
-		"data": {
-			"type": "payments",
-			"id": "%s",
-			"attributes": {
-				"amount": 800.11,
-				"beneficiary_party": {
-					"name": "Wilfred Jeremiah Owens",
-					"address": "1 The Beneficiary Localtown SE2",
-					"bank_id": "403000",
-					"bank_id_code": "GBDSC",
-					"account_name": "W Owens",
-					"account_number": "31926819",
-					"account_number_code": "BBAN"
-				},
-				"charges_information": {
-					"bearer_code": "SHAR",
-					"sender_charges": [
-						{
-							"amount": 5,
-							"currency": "GBP"
-						},
-						{
-							"amount": 10,
-							"currency": "USD"
-						}
-					],
-					"receiver_charge": {
-						"amount": 1,
-						"currency": "USD"
-					}
-				},
-				"currency": "USD",
-				"debtor_party": {
-					"name": "Emelia Jane Brown",
-					"address": "10 Debtor Crescent Sourcetown NE1",
-					"bank_id": "203301",
-					"bank_id_code": "GBDSC",
-					"account_name": "EJ Brown Black",
-					"account_number": "GB29XABC10161234567801",
-					"account_number_code": "IBAN"
-				},
-				"end_to_end_reference": "Wil piano Jan",
-				"fx": {
-					"contract_reference": "FX123",
-					"exchange_rate": 2,
-					"original_amount": {
-						"amount": 200.42,
-						"currency": "USD"
-					}
-				},
-				"numeric_reference": "1002001",
-				"payment_id": "123456789012345678",
-				"payment_purpose": "Paying for goods/services",
-				"payment_scheme": "FPS",
-				"payment_type": "Credit",
-				"processing_time": 1543110881,
-				"reference": "Payment for Em's piano lessons",
-				"scheme_payment_sub_type": "InternetBanking",
-				"scheme_payment_type": "ImmediatePayment",
-				"sponsor_party": {
-					"bank_id": "123123",
-					"bank_id_code": "GBDSC",
-					"account_number": "56781234"
-				}
-			},
-			"links": {
-				"self": "/payments/%s"
-			},
-			"meta": {
-				"organization_id": "743d5b63-8e6f-432e-a8fa-c5d8d2ee5fcb",
-				"version": "1.0"
-			}
-		}
-	}`, ID, ID)
+func TestReplaceErrorServerError(t *testing.T) {
+	m := &PaymentServiceMock{}
+	h := payments.PatchPaymentHandler(m)
+	c := echoContext(http.MethodPatch, "/payments/foo", strings.NewReader(`{"data":{"type": "payments"}}`))
+
+	m.On("Merge", mock.Anything, mock.Anything).Return(&payment.Payment{}, errors.New("unexpected"))
+
+	err := h(c)
+
+	assert.IsType(t, &echo.HTTPError{}, err)
+	assert.Equal(t, http.StatusInternalServerError, err.(*echo.HTTPError).Code)
+	assert.Equal(t, "code=500, message=unexpected", err.Error())
 }

@@ -3,7 +3,7 @@
 API_MAIN := cmd/api/main.go cmd/api/f3api.go
 API_EXECUTABLE := bin/f3-payments-api
 FLAGS :=-v -race -timeout 10s
-GO_TEST = GOCACHE=off go test
+GO_TEST = go test
 GO_COVER = -covermode=count -coverpkg=./...
 
 test:
@@ -16,7 +16,7 @@ test-functional:
 	@${GO_TEST} ${FLAGS} -tags=functional ./...
 
 coverage:
-	@${GO_TEST} -v -timeout 10s -tags='unit functional' ${GO_COVER} -coverprofile=coverage.unit.cov ./...
+	@GOCACHE=off ${GO_TEST} -v -timeout 10s -tags='unit functional' ${GO_COVER} -coverprofile=coverage.unit.cov ./...
 
 run:
 	@go run ${API_MAIN}
