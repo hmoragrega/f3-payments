@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"net/http"
+	"time"
 
 	"github.com/hmoragrega/f3-payments/cmd/api/config"
 	"github.com/hmoragrega/f3-payments/cmd/api/handlers"
@@ -27,7 +29,12 @@ func NewF3API(c *config.Config, d *config.DIC) *F3API {
 
 // Start starts the api
 func (a *F3API) Start() {
-	a.Echo.Start(a.c.GetServerAddress())
+	s := &http.Server{
+		Addr:         a.c.GetServerAddress(),
+		ReadTimeout:  1 * time.Minute,
+		WriteTimeout: 1 * time.Minute,
+	}
+	a.Echo.StartServer(s)
 }
 
 // Shutdown terminates the api in a clean way
