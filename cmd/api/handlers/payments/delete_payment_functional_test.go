@@ -23,6 +23,16 @@ func TestDelete(t *testing.T) {
 		Done()
 }
 
+func TestDeleteNotFound(t *testing.T) {
+	reloadFixtures(t)
+	client().Delete("/payments/3ff5d69f-0b84-4efd-9ccd-30bb31344442").
+		Expect(t).
+		Type(jsonApiContentTypePattern).
+		Status(http.StatusNoContent).
+		BodyLength(0).
+		Done()
+}
+
 func getPaymentListAfterDelete() string {
 	return `
 	{
