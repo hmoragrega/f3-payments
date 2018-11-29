@@ -94,7 +94,7 @@ func TestPatchErrorMergeFailed(t *testing.T) {
 
 	assert.IsType(t, &echo.HTTPError{}, err)
 	assert.Equal(t, http.StatusServiceUnavailable, err.(*echo.HTTPError).Code)
-	assert.Equal(t, "code=503, message=The payment is not valid", err.Error())
+	assert.Equal(t, "code=503, message=The resulting payment is not valid", err.Error())
 }
 
 func TestPatchErrorServerError(t *testing.T) {
