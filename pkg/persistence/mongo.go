@@ -54,26 +54,38 @@ func NewMongoRepository(session *MongoSession, entity *MongoEntity, database str
 
 // Persist persists an entity and returns the id
 func (m *MongoRepository) Persist(i interface{}) error {
-	return m.collection().Insert(i)
+	s := m.session.copy()
+	defer s.Close()
+
+	return m.collection(s).Insert(i)
 }
 
 // Update updates an existing entity
 func (m *MongoRepository) Update(ID string, i interface{}) error {
-	return m.collection().UpdateId(ID, i)
+	s := m.session.copy()
+	defer s.Close()
+
+	return m.collection(s).UpdateId(ID, i)
 }
 
 // List returns a collection of entities
 func (m *MongoRepository) List() (interface{}, error) {
+	s := m.session.copy()
+	defer s.Close()
+
 	l := m.entity.list()
-	err := m.collection().Find(nil).Sort("_id").All(l)
+	err := m.collection(s).Find(nil).Sort("_id").All(l)
 
 	return l, err
 }
 
 // Get retrieves a single entity by the ID
 func (m *MongoRepository) Get(ID string) (interface{}, error) {
+	s := m.session.copy()
+	defer s.Close()
+
 	e := m.entity.one()
-	err := m.collection().FindId(ID).One(e)
+	err := m.collection(s).FindId(ID).One(e)
 
 	if err != nil && err == mgo.ErrNotFound {
 		return nil, nil
@@ -84,7 +96,10 @@ func (m *MongoRepository) Get(ID string) (interface{}, error) {
 
 // Delete deletes an entity by the ID
 func (m *MongoRepository) Delete(ID string) error {
-	err := m.collection().RemoveId(ID)
+	s := m.session.copy()
+	defer s.Close()
+
+	err := m.collection(s).RemoveId(ID)
 
 	if err != nil && err == mgo.ErrNotFound {
 		return nil
@@ -95,13 +110,15 @@ func (m *MongoRepository) Delete(ID string) error {
 
 // DeleteAll deletes all entities in the collection
 func (m *MongoRepository) DeleteAll() error {
-	//fmt.Println(m.database, m.entity.collection)
-	_, err := m.collection().RemoveAll(nil)
+	s := m.session.copy()
+	defer s.Close()
+
+	_, err := m.collection(s).RemoveAll(nil)
 	return err
 }
 
-func (m *MongoRepository) collection() *mgo.Collection {
-	return m.session.Session().DB(m.database).C(m.entity.collection)
+func (m *MongoRepository) collection(s *mgo.Session) *mgo.Collection {
+	return s.DB(m.database).C(m.entity.collection)
 }
 
 // MongoSession A wrapper to handle the connection to mongo
@@ -140,18 +157,17 @@ func (s *MongoSession) Connect() error {
 	return nil
 }
 
-// Session return the session to mongo
-func (s *MongoSession) Session() *mgo.Session {
-	s.RLock()
-	defer s.RUnlock()
-
-	return s.session
-}
-
 // Close closes the connection to mongo
 func (s *MongoSession) Close() {
 	s.Lock()
 	defer s.Unlock()
 
 	s.session.Close()
+}
+
+func (s *MongoSession) copy() *mgo.Session {
+	s.RLock()
+	defer s.RUnlock()
+
+	return s.session.Copy()
 }
